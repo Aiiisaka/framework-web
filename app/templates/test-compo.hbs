@@ -1,0 +1,15 @@
+{{page-title "TestCompo"}}
+
+<TitleDesc @title="Test de composant"><b>Desc</b>ription</TitleDesc>
+
+{{#if visible}}
+  <button {{on "click" toggleVisible}}>fermer</button>
+  {{#each @model as |user|}}
+    <TitleDesc @title={{user.nom}}>
+      <h3>{{user.desc}}</h3>
+    </TitleDesc>
+  {{/each}}
+{{else}}
+  <button {{on "click" toggleVisible}}>affiche</button>
+{{/if}}
+{{outlet}}

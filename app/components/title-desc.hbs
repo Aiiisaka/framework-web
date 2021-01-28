@@ -1,0 +1,7 @@
+<h1>{{@title}}</h1>
+{{#if visible}}
+  {{yield}}<br>
+  <button {{on "click" toggleVisible}}>Close</button>
+{{else}}
+  <button {{on "click" toggleVisible}}>Show more...</button>
+{{/if}}
