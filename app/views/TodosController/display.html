@@ -1,10 +1,43 @@
 <!--View associated to display action of TodosController controller -->
-<div class="ui inverted segment">
+<div class="ui inverted segment" xmlns="http://www.w3.org/1999/html">
     <div class="ui inverted relaxed divided list">
+        {% for essai in id %}
+            <div class="item">
+                {{essai}}
+            </div>
+        {% endfor %}
+
         {% for item in list %}
+            <div class="item">
+                <div class="item{{ loop.index0 }}">
+                    <button class="ui mini icon button left floated" onclick="this.innerHTML = '<i class=\'ui cart icon\'></i>';"><i class="ui play icon"></i></button>
+                    {{item}}
+                    <button class="ui circular mini icon inverted red button right floated" onclick="location.href='{{ path("todos.delete") ~ loop.index0}}'"><i class="ui trash icon"></i></button>
+                    <button class="ui circular mini icon inverted button right floated buttonEdit" id="{{ loop.index0 }}"><i class="ui edit icon"></i></button>
+                </div>
+                <form class="ui inline inverted form " action="{{ path('todos.edit') ~ loop.index0 }}" method="post">
+                    <div class="item{{ loop.index0 }}" style="display:none;">
+                        <input style="width:200px;" placeholder="Éditer un élément" name="editElement">
+                        <button class="ui circular mini icon inverted red button right floated" onclick="location.href='{{ path("todos.delete") ~ loop.index0}}'"><i class="ui trash icon"></i></button>
+                        <button class="ui circular mini icon inverted button right floated buttonEdit" id="{{ loop.index0 }}"><i class="ui edit icon"></i></button>
+                    </div>
+                </form>
+            </div>
+        {% endfor %}
+
         <div class="item">
-            {{ item }}
+            <br>
+            <form class="ui inline inverted form" action="{{ path('todos.add') }}" method="post">
+                <div class="tow fields _form" style="display: none">
+                    <textarea placeholder="Saisissez vos éléments sur chaque ligne" name="elements" rows="4"></textarea>
+                    <button class="ui mini green icon button"><i class="ui check circle outline icon"></i></button>
+                </div>
+                <div class="field _form">
+                    <input placeholder="Nouvel élément" name="element">
+                </div>
+            </form>
         </div>
+
     </div>
-    {% endfor %}
 </div>
+{{ script_foot | raw }}

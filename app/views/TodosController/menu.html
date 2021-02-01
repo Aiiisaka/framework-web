@@ -1,5 +1,25 @@
 <!--View associated to menu action of TodosController controller -->
 <div class="ui secondary inverted menu">
-    <a href="{{ path('home') }}" class="active item">Home</a>
-    <a href="{{ path('todos.new') }}" class="item">Nouvelle liste</a>
+
+    <a href="{{ path('todos.home')}}" class="active item">Home</a>
+    <a href="{{ path('todos.new')}}" class="item">Nouvelle Liste</a>
+    <a href="{{ path('todos.save')}}" class="item _saveList">Sauvegarder la Liste</a>
+
+    <div class="right menu">
+        <div class="item">
+            <div class="ui inverted toggle checkbox _multiple">
+                <input type="checkbox" id="multiple">
+                <label for="multiple">Saisie multiple</label>
+            </div>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <form action="{{ path('todos.loadListPost') }}" method="post">
+                <div class="ui action inverted input">
+                    <input type="text" placeholder="Identifiant ..." name="id">
+                    <button class="ui inverted button">Ouvrir</button>
+                </div>
+            </form>
+
+            {{ _userInfo | raw }}
+        </div>
+    </div>
 </div>
