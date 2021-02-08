@@ -1,12 +1,22 @@
 {% extends "OrgaController/base.html" %}
+
 {% block header %}
     <h2>Organisation</h2>
 {% endblock %}
+
 {% block body %}
     <ul>
         {% for orga in all %}
             <li>
-                <h4><a href="{{path('orga.getOne', [orga.id])}}">{{ orga }}</a></h4>
+                <div class="ui two column grid">
+                    <div class="column">
+                        <a href="{{path('orga.getOne', [orga.id])}}">{{ orga }}</a>
+                    </div>
+                    <div class="column">
+                        <a class="ui circular mini icon inverted blue button right floated" href="{{ path('orga.update', [orga.id])}}"><i class="ui edit icon"></i></a>
+                        <a class="ui circular mini icon inverted red button right floated" href="{{ path('orga.delete', [orga.id])}}"><i class="ui trash icon"></i></a>
+                    </div>
+                </div>
             </li>
         {% endfor %}
     </ul>

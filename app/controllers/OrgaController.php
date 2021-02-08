@@ -3,6 +3,7 @@ namespace controllers;
 
 use models\Organisation;
 
+use Ubiquity\attributes\items\router\Post;
 use Ubiquity\attributes\items\router\Route;
 
 use Ubiquity\orm\repositories\ViewRepository;
@@ -24,7 +25,7 @@ class OrgaController extends ControllerBase{
         $this->loadView("OrgaController/index.html");
 	}
 
-    #[Route(path: "orga/{idOrga}", name: "orga.getOne")]
+    #[Route(path: "orga/getOne/{idOrga}", name: "orga.getOne")]
     public function getOne($idOrga){
         $this->repo->byId($idOrga, ['users.groupes','groupes.users']);
         $this->loadDefaultView();
@@ -34,14 +35,22 @@ class OrgaController extends ControllerBase{
         $this->loadView('OrgaController/base.html');
     }
 
-    #[Post(path: "orga/add", name: "orga.add")]
+    #[Route(path: "orga/add", name: "orga.add")]
 	public function add(){
+        $this->repo->all("", false);
 		$this->loadView('OrgaController/add.html');
 	}
 
     #[Post(path: "orga/update/{idOrga}", name: "orga.update")]
 	public function update($idOrga){
-		$this->loadView('OrgaController/update.html');
+        $this->repo->byId($idOrga, ['users.groupes','groupes.users']);
+		$this->loadView();
+	}
+
+    #[Post(path: "orga/delete/{idOrga}", name: "orga.delete")]
+	public function delete($idOrga){
+        $this->repo->byId($idOrga, ['users.groupes','groupes.users']);
+		$this->loadView();
 	}
 
 }

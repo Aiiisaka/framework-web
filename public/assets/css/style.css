@@ -18,6 +18,7 @@ html {
 
 body {
 	background-color: #111111;
+	color:#f8f9fa;
 	font-family: "Titillium Web", sans-serif;
 }
 
@@ -27,7 +28,11 @@ body {
 	}
 }
 
-.form .button, .form .message, .customSelect, .form .select, .form .textarea, .form .text-input, .form .option-input + label, .form .checkbox-input + label, .form .label {
+.changement {
+	color:#111111;
+}
+
+.form .button, .form .buttonAnnuler, .form .message, .customSelect, .form .select, .form .textarea, .form .text-input, .form .option-input + label, .form .checkbox-input + label, .form .label {
 	padding: 0.75em 1em;
 	-webkit-appearance: none;
 	-moz-appearance: none;
@@ -42,9 +47,9 @@ body {
 
 .form .label {
 	font-weight: bold;
-	color: white;
 	padding-top: 0;
 	padding-left: 0;
+	color:#111111;
 	letter-spacing: 0.025em;
 	font-size: 1.125em;
 	line-height: 1.25;
@@ -128,7 +133,7 @@ body {
 	font: inherit;
 	line-height: normal;
 	cursor: pointer;
-	background: #E8474C;
+	background: #96BE00;
 	color: white;
 	font-weight: bold;
 	width: auto;
@@ -137,11 +142,27 @@ body {
 	padding-left: 2em;
 	padding-right: 2em;
 }
-.form .button:hover, .form .button:focus, .form .button:active {
+
+.form .buttonAnnuler {
+	font: inherit;
+	line-height: normal;
+	cursor: pointer;
+	background: #ECAD81;
+	color: white;
+	font-weight: bold;
+	width: auto;
+	margin-left: auto;
+	font-weight: bold;
+	padding-left: 2em;
+	padding-right: 2em;
+}
+
+.form .button:hover, .form .button:focus, .form .button:active, .form .buttonAnnuler:hover, .form .buttonAnnuler:focus, .form .buttonAnnuler:active {
 	color: white;
 	border-color: white;
 }
-.form .button:active {
+
+.form .button:active, .form .buttonAnnuler:active {
 	position: relative;
 	top: 1px;
 	left: 1px;
