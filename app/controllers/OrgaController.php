@@ -41,16 +41,16 @@ class OrgaController extends ControllerBase{
 		$this->loadView('OrgaController/add.html');
 	}
 
-    #[Post(path: "orga/update/{idOrga}", name: "orga.update")]
+    #[Route(path: "orga/update/{idOrga}", name: "orga.update")]
 	public function update($idOrga){
         $this->repo->byId($idOrga, ['users.groupes','groupes.users']);
-		$this->loadView();
+		$this->loadView('OrgaController/update.html');
 	}
 
-    #[Post(path: "orga/delete/{idOrga}", name: "orga.delete")]
+    #[Route(path: "orga/delete/{idOrga}", name: "orga.delete")]
 	public function delete($idOrga){
         $this->repo->byId($idOrga, ['users.groupes','groupes.users']);
-		$this->loadView();
+		$this->loadView('OrgaController/delete.html');
 	}
 
 }
