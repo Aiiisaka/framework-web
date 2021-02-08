@@ -52,6 +52,16 @@ body {
 	position: relative;
 }
 
+.selectpicker {
+	font: inherit;
+	line-height: normal;
+	width: 100%;
+	box-sizing: border-box;
+	background: #222222;
+	color: white;
+	position: relative;
+}
+
 .form .button, .form .selectpicker, .form .optionpick, .form .buttonAnnuler, .form .message, .customSelect, .form .select, .form .textarea, .form .text-input, .form .option-input + label, .form .checkbox-input + label, .form .label {
 	padding: 0.75em 1em;
 	-webkit-appearance: none;
