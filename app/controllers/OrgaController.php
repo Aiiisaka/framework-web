@@ -33,4 +33,15 @@ class OrgaController extends ControllerBase{
     public function base(){
         $this->loadView('OrgaController/base.html');
     }
+
+    #[Post(path: "orga/add", name: "orga.add")]
+	public function add(){
+		$this->loadView('OrgaController/add.html');
+	}
+
+    #[Post(path: "orga/update/{idOrga}", name: "orga.update")]
+	public function update($idOrga){
+		$this->loadView('OrgaController/update.html');
+	}
+
 }
