@@ -36,8 +36,8 @@ class Groupe{
 
 
     #[ManyToOne()]
-    #[JoinColumn(className: "models\\Organization",name: "idOrganization")]
-    private $organization;
+    #[JoinColumn(className: "models\\Organisation",name: "idOrganisation")]
+    private $organisation;
 
 
     #[ManyToMany(targetEntity: "models\\User",inversedBy: "groupes")]
@@ -76,12 +76,12 @@ class Groupe{
         $this->aliases=$aliases;
     }
 
-    public function getOrganization(){
-        return $this->organization;
+    public function getOrganisation(){
+        return $this->organisation;
     }
 
-    public function setOrganization($organization){
-        $this->organization=$organization;
+    public function setOrganisation($organisation){
+        $this->organisation=$organisation;
     }
 
     public function getUsers(){
