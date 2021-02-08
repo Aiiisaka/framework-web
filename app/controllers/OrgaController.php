@@ -53,4 +53,10 @@ class OrgaController extends ControllerBase{
 		$this->loadView('OrgaController/delete.html');
 	}
 
+    #[Route(path: "orga/addGroup", name: "orga.addGroup")]
+    public function addGroup(){
+        $this->repo->byId("", ['organisation','users']);
+		$this->loadView('OrgaController/addGroup.html');
+	}
+
 }
