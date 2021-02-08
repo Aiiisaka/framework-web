@@ -32,7 +32,27 @@ body {
 	color:#111111;
 }
 
-.form .button, .form .buttonAnnuler, .form .message, .customSelect, .form .select, .form .textarea, .form .text-input, .form .option-input + label, .form .checkbox-input + label, .form .label {
+.dropdown-toggle, .selectpicker {
+	padding: 0.75em 1em;
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	appearance: none;
+	outline: none;
+	line-height: normal;
+	border-radius: 0;
+	border: none;
+	background: none;
+	display: block;
+	font: inherit;
+	line-height: normal;
+	width: 100%;
+	box-sizing: border-box;
+	background: #222222;
+	color: white;
+	position: relative;
+}
+
+.form .button, .form .selectpicker, .form .optionpick, .form .buttonAnnuler, .form .message, .customSelect, .form .select, .form .textarea, .form .text-input, .form .option-input + label, .form .checkbox-input + label, .form .label {
 	padding: 0.75em 1em;
 	-webkit-appearance: none;
 	-moz-appearance: none;
@@ -64,7 +84,7 @@ body {
 	vertical-align: top;
 }
 
-.customSelect, .form .select, .form .textarea, .form .text-input, .form .option-input + label, .form .checkbox-input + label {
+.customSelect, .form .optionpick, .form .select, .form .textarea, .form .text-input, .form .option-input + label, .form .checkbox-input + label {
 	font: inherit;
 	line-height: normal;
 	width: 100%;
@@ -73,17 +93,17 @@ body {
 	color: white;
 	position: relative;
 }
-.customSelect:placeholder, .form .select:placeholder, .form .textarea:placeholder, .form .text-input:placeholder, .form .option-input + label:placeholder, .form .checkbox-input + label:placeholder {
+.customSelect:placeholder, .form .select:placeholder, .form .selectpicker:placeholder, .form .textarea:placeholder, .form .text-input:placeholder, .form .option-input + label:placeholder, .form .checkbox-input + label:placeholder {
 	color: white;
 }
-.customSelect:-webkit-autofill, .form .select:-webkit-autofill, .form .textarea:-webkit-autofill, .form .text-input:-webkit-autofill, .form .option-input + label:-webkit-autofill, .form .checkbox-input + label:-webkit-autofill {
+.customSelect:-webkit-autofill, .form .select:-webkit-autofill, .form .selectpicker:-webkit-autofill, .form .textarea:-webkit-autofill, .form .text-input:-webkit-autofill, .form .option-input + label:-webkit-autofill, .form .checkbox-input + label:-webkit-autofill {
 	box-shadow: 0 0 0px 1000px #111111 inset;
 	-webkit-text-fill-color: white;
 	border-top-color: #111111;
 	border-left-color: #111111;
 	border-right-color: #111111;
 }
-.customSelect:not(:focus):not(:active).error, .form .select:not(:focus):not(:active).error, .form .textarea:not(:focus):not(:active).error, .form .text-input:not(:focus):not(:active).error, .form .option-input + label:not(:focus):not(:active).error, .form .checkbox-input + label:not(:focus):not(:active).error, .error .customSelect:not(:focus):not(:active), .error .form .select:not(:focus):not(:active), .form .error .select:not(:focus):not(:active), .error .form .textarea:not(:focus):not(:active), .form .error .textarea:not(:focus):not(:active), .error .form .text-input:not(:focus):not(:active), .form .error .text-input:not(:focus):not(:active), .error .form .option-input + label:not(:focus):not(:active), .form .error .option-input + label:not(:focus):not(:active), .error .form .checkbox-input + label:not(:focus):not(:active), .form .error .checkbox-input + label:not(:focus):not(:active) {
+.customSelect:not(:focus):not(:active).error, .form .selectpicker:not(:focus):not(:active).error, .form .select:not(:focus):not(:active).error, .form .textarea:not(:focus):not(:active).error, .form .text-input:not(:focus):not(:active).error, .form .option-input + label:not(:focus):not(:active).error, .form .checkbox-input + label:not(:focus):not(:active).error, .error .customSelect:not(:focus):not(:active), .error .form .select:not(:focus):not(:active), .form .error .select:not(:focus):not(:active), .error .form .textarea:not(:focus):not(:active), .form .error .textarea:not(:focus):not(:active), .error .form .text-input:not(:focus):not(:active), .form .error .text-input:not(:focus):not(:active), .error .form .option-input + label:not(:focus):not(:active), .form .error .option-input + label:not(:focus):not(:active), .error .form .checkbox-input + label:not(:focus):not(:active), .form .error .checkbox-input + label:not(:focus):not(:active) {
 	background-size: 8px 8px;
 	background-image: linear-gradient(135deg, rgba(232, 71, 76, 0.5), rgba(232, 71, 76, 0.5) 25%, transparent 25%, transparent 50%, rgba(232, 71, 76, 0.5) 50%, rgba(232, 71, 76, 0.5) 75%, transparent 75%, transparent);
 	background-repeat: repeat;
@@ -196,11 +216,11 @@ body {
 .form .textarea {
 	max-width: 100%;
 }
-.form .select {
+.form .select, .form .selectpicker, .form .optionpick, {
 	text-indent: 0.01px;
 	text-overflow: "" !important;
 }
-.form .select::-ms-expand {
+.form .select::-ms-expand, .form .selectpicker::-ms-expand {
 	display: none;
 }
 .form .checkboxes, .form .options {
@@ -209,7 +229,7 @@ body {
 	list-style-type: none;
 	overflow: hidden;
 }
-.form .checkbox, .form .option {
+.form .checkbox, .form .option, .form .optionpick {
 	float: left;
 	margin: 1px;
 }
