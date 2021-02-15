@@ -1,0 +1,9 @@
+<a href="{{ path('main.utilisateur') }}" class="ui button" data-target="#response">Informations</a>
+<a href="{{ path('groups.list') }}" class="ui black button" data-target="#response">Liste des organisations</a>
+<div id="response" class="ui segment">
+    <a href="{{ path('new.user') }}" class="ui basic olive button" data-target="#new-user">
+        <i class="plus icon"></i> Ajouter un utilisateur...
+    </a>
+    <div id="new-user" style="margin-top: 3px"></div>
+</div>
+{{ script_foot | raw }}
