@@ -3,8 +3,8 @@ namespace controllers;
 use models\Group;
 use models\Organization;
 use models\User;
-use service\dao\OrgaRepository;
-use service\ui\UIGroups;
+use services\dao\OrgaRepository;
+use services\ui\UIGroups;
 use Ubiquity\attributes\items\di\Autowired;
 use Ubiquity\attributes\items\router\Route;
 use Ubiquity\controllers\auth\AuthController;
@@ -17,6 +17,10 @@ use Ubiquity\utils\http\USession;
  */
 class MainController extends ControllerBase{
     use WithAuthTrait;
+
+    #[Autowired]
+    private OrgaRepository $repo;
+    private UIGroups $ui;
 
     #[Route(path:'index', name:'home')]
     public function index() {
@@ -39,6 +43,7 @@ class MainController extends ControllerBase{
     public function listGroups() {
         $idOrga=USession::get('idOrga');
         $groups=DAO::getAll(Group::class, 'idOrganization= ?', false, [$idOrga]);
+        $this->ui->listGroups($groups);
         $this->jquery->renderView('MainController/listGroups.html');
     }
 
@@ -65,9 +70,16 @@ class MainController extends ControllerBase{
         }
     }
 
-    #[Autowired]
-    private OrgaRepository $repo;
-    private UIGroups $ui;
+    #[Get('newOrga',name: 'newOrga')]
+    public function orgaForm() {
+        $this->uiService->orgaForm(new Organization());
+        $this->jquery->renderDefaultView();
+    }
+
+    #[Post('addOrga', name:'addOrga')]
+    public function addOrga() {
+        var_dump($_POST);
+    }
 
     public function setRepo(OrgaRepository $repo): void {
         $this->repo = $repo;
