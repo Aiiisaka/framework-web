@@ -1,0 +1,70 @@
+{% block _before %}
+    <p></p>
+{% endblock %}
+{% block _form %}
+    <form id="frm-login" class="ui form" name="frm-login" method="post" action="{{action}}">
+
+        <div class="contour">
+            <br>
+
+            {% block _header %}
+                <h2 class="ui center aligned header dividing">Connexion</h2>
+            {% endblock %}
+
+            <br>
+
+            <div class="three fields">
+                <div class="field"></div>
+                <div class="field required">
+                    <label for="{{loginInputName}}">{{loginLabel}}</label>
+                    <div class="ui input">
+                        {% block _login %}
+                        <input id="{{loginInputName}}" name="{{loginInputName}}" type="text" placeholder="{{loginLabel}}">
+                        {% endblock %}
+                    </div>
+                </div>
+                <div class="field"></div>
+            </div>
+
+            <div class="three fields">
+                <div class="field"></div>
+                <div class="field required">
+                    <label for="{{passwordInputName}}">{{passwordLabel}}</label>
+                    <div class="ui input">
+                        {% block _password %}
+                        <input id="{{passwordInputName}}" name="{{passwordInputName}}" type="password">
+                        {% endblock %}
+                    </div>
+                </div>
+                <div class="field"></div>
+            </div>
+
+            <div class="seven fields">
+                <div class="field"></div>
+                <div class="field"></div>
+                <div class="field"></div>
+                <div class="field">
+                    &nbsp;&nbsp;
+                    <div class="ui checkbox">
+                        <input id="ck-remember" name="ck-remember" value="1" type="checkbox" placeholder="Remember" tabindex="0" class="hidden">
+                        <label for="ck-remember">{{rememberCaption}}</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="ui grid">
+                <div class="seven column row">
+                    <div class="column"></div>
+                    <div class="column"></div>
+                    <div class="column"></div>
+                    <div class="column">
+                        <button class="ui button basic ajax _connect floated">Connexion ...</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </form>
+{% endblock %}
+{% block _after %}
+{% endblock %}

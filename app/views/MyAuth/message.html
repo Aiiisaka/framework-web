@@ -1,0 +1,24 @@
+{% block _before %}
+{% endblock %}
+{% block _message %}
+    <div class="ui grid">
+        <div class="three column row">
+            <div class="column"></div>
+            <div class="column">
+                <div id="{{id}}" class="ui {{type}} {{ icon ? 'icon':''}} compact message">
+                    {%if icon %}
+                        <i class="{{icon}} icon"></i>
+                    {% endif %}
+                    <div class="content">
+                        <div class="header">
+                            {{ header | raw }}
+                        </div>
+                        {{ body | raw }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block _after %}
+{% endblock %}
