@@ -25,7 +25,7 @@ class MyAuth extends AuthController {
         if (isset($urlParts)) {
             $this->_forward(implode("/",$urlParts));
         } else {
-            UResponse::header('location','/index');
+            UResponse::header('location','/home');
         }
     }
 

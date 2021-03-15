@@ -1,3 +1,85 @@
-<div class="ui segment detail">
-    Détails à venir ... :D
+<div class="ui grid">
+    <div class="column two wide"></div>
+
+    <div class="column eight wide">
+        <fieldset>
+            <legend>&nbsp;Store&nbsp;</legend>
+            <div class="couleur">
+                <div class="item">
+                    <a href="{{ path('order') }}" class="ui vertical animated black fluid button" data-target="#store-order" tabindex="0">
+                        <div class="hidden content">Access to my orders ...</div>
+                        <div class="visible content">
+                            <i class="boxes icon"></i>&nbsp;My orders (5)
+                        </div>
+                    </a>
+                </div>
+
+                <div style="margin-top: 5px"></div>
+
+                <div class="item">
+                    <a href="{{ path('browse') }}" class="ui vertical animated black fluid button" data-target="#store-browse" tabindex="0">
+                        <div class="hidden content">Go !</div>
+                        <div class="visible content">
+                            <i class="shop icon"></i>&nbsp;Browse the store
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </fieldset>
+    </div>
+
+    <div class="column four wide">
+        <fieldset>
+            <legend>&nbsp;Basket&nbsp;</legend>
+            <div class="couleur">
+                <div class="item">
+                    <a href="{{ path('basket.new') }}" class="ui vertical animated green fluid button" data-target="#new-basket" tabindex="0">
+                        <div class="hidden content">Create a new basket ...</div>
+                        <div class="visible content">
+                            <i class="cart plus icon"></i>&nbsp;New ...
+                        </div>
+                    </a>
+                </div>
+
+                <div style="margin-top: 5px"></div>
+
+                <div class="item">
+                    <a href="{{ path('basket') }}" class="ui vertical animated black fluid button" data-target="#basket" tabindex="0">
+                        <div class="hidden content">Access to my baskets ...</div>
+                        <div class="visible content">
+                            <i class="shopping bag icon"></i>&nbsp;My baskets (2)
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </fieldset>
+    </div>
+</div>
+
+<br>
+
+<div class="ui grid">
+    <div class="column two wide"></div>
+    <div class="column twelve wide">
+        <fieldset>
+            <legend>&nbsp;Current promotions&nbsp;</legend>
+            <div class="couleur">
+
+            </div>
+        </fieldset>
+    </div>
+</div>
+
+<br>
+
+<div class="ui grid">
+    <div class="column two wide"></div>
+    <div class="column twelve wide">
+        <fieldset>
+            <legend>&nbsp;Recently viewed&nbsp;</legend>
+            <div class="couleur">
+
+            </div>
+        </fieldset>
+    </div>
 </div>

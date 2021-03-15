@@ -6,8 +6,17 @@
         {% block _beforeConnected %}
         {% endblock %}
 
-        {% block _userInfo %}
+        {% block _basketInfo %}
         <div class="ui label">
+            <i style="color: darkorange">2</i>
+            <i class="icon shopping basket"></i>
+            Basket
+            <i style="color: darkorange">150 €</i>
+        </div>
+        {% endblock %}
+
+        {% block _userInfo %}
+        <div class="ui yellow label">
             {{ connected|raw }}
         </div>
         {% endblock %}
@@ -30,6 +39,7 @@
                 {% endblock %}
             </a>
         {% endblock %}
+
         {% endif %}
     {% block _after %}
     {% endblock %}
