@@ -4,6 +4,7 @@ namespace controllers;
 use models\Basket;
 use models\Order;
 use models\Product;
+use models\Section;
 use Ubiquity\attributes\items\di\Autowired;
 use services\dao\StoreRepository;
 use Ubiquity\attributes\items\router\Route;
@@ -43,10 +44,11 @@ class MainController extends ControllerBase {
         $this->loadDefaultView(['order'=>$order]);
     }
 
-    #[Route(path:"store/browse", name:"browse")]
-    public function browse() {
-        $store = DAO::getAll(Product::class, false, false);
-        $this->loadDefaultView(['store'=>$store]);
+    #[Route(path:"store/browse", name:"store")]
+    public function store() {
+        $section = DAO::getAll(Section::class, false, false);
+        $produitsPromo = DAO::getAll(Product::class, 'promotion<?', false, [0]);
+        $this->loadDefaultView(['section'=>$section, 'produitsPromo'=>$produitsPromo]);
     }
 
     #[Route(path:"basket/new", name:"basket.new")]

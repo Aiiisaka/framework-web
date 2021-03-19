@@ -1,8 +1,45 @@
 <div class="ui grid">
     <div class="column two wide"></div>
-    <div class="column twelve wide">
-        <div class="couleur">
-            Browse Store
+
+    <div class="column four wide">
+        <div class="inverseCouleur">
+            <div class="ui celled list">
+                {% for sectionProduct in section %}
+                <div class="item" style="text-align: center">
+                    <div class="ui yellow button" style="font-size: 10px">{{sectionProduct.name}} ({{sectionProduct.products | length}})</div>
+                </div>
+                {% endfor %}
+            </div>
         </div>
+    </div>
+
+    <div class="column eight wide">
+            <div class="couleur">
+                <div class="item">
+                    <fieldset>
+                        <legend>&nbsp;Current promotions&nbsp;</legend>
+                            <div class="ui horizontal list">
+                                {% for promo in produitsPromo %}
+                                <div class="item" style="text-align: center">
+                                    <div class="ui yellow label" style="font-size: 15px">{{promo.name}}</div>
+                                    <div class="content">
+                                        <br>
+                                        <div class="header">Promotion : {{promo.promotion}}</div>
+                                        <div class="description label">Price : {{promo.price}}</div>
+                                    </div>
+                                </div>
+                                {% endfor %}
+                            </div>
+                    </fieldset>
+                </div>
+
+                <div style="margin-top: 5px"></div>
+
+                <div class="item">
+                    <fieldset>
+                        <legend>&nbsp;Recently viewed&nbsp;</legend>
+                    </fieldset>
+                </div>
+            </div>
     </div>
 </div>
