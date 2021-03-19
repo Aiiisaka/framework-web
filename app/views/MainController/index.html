@@ -9,7 +9,7 @@
                     <a href="{{ path('order') }}" class="ui vertical animated black fluid button" data-target="#store-order" tabindex="0">
                         <div class="hidden content">Access to my orders ...</div>
                         <div class="visible content">
-                            <i class="boxes icon"></i>&nbsp;My orders ({{ numOrders }})
+                            <i class="boxes icon"></i> My orders ({{ numOrders }})
                         </div>
                     </a>
                 </div>
@@ -65,11 +65,13 @@
             <legend>&nbsp;Current promotions&nbsp;</legend>
             <div class="couleur">
                 <div class="ui celled list">
-                    {% for promo in articlesPromo %}
-                    <div class="item">
-                        {{promo.name}}
+                    {% for promo in produitsPromo %}
+                    <div class="item" style="text-align: center">
+                        <div class="ui yellow label" style="font-size: 15px">{{promo.name}}</div>
                         <div class="content">
-                            <div class="description">{{promo.price}}</div>
+                            <br>
+                            <div class="header">Promotion : {{promo.promotion}}</div>
+                            <div class="description label">Price : {{promo.price}}</div>
                         </div>
                     </div>
                     {% endfor %}

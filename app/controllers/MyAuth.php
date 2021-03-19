@@ -1,5 +1,6 @@
 <?php
 namespace controllers;
+
 use models\User;
 use controllers\auth\files\MyAuthFiles;
 use Ubiquity\controllers\auth\AuthFiles;
@@ -21,12 +22,25 @@ class MyAuth extends AuthController {
     protected function onConnect($connected) {
         $urlParts=$this->getOriginalURL();
         USession::set($this->_getUserSessionKey(), $connected);
-
         if (isset($urlParts)) {
             $this->_forward(implode("/",$urlParts));
         } else {
             UResponse::header('location','/home');
         }
+    }
+
+    #[Get(name:'login.direct')]
+    public function direct($name){
+        $name=urldecode($name);
+        $user = DAO::getOne(User::class, 'email=?', false, [$name]);
+        if($user) {
+            USession::set('idUser', $user->getId());
+            return $this->onConnect($user);
+        }
+        $this->_invalid=true;
+        $this->initializeAuth();
+        $this->onBadCreditentials ();
+        $this->finalizeAuth();
     }
 
     protected function _connect() {
@@ -35,7 +49,7 @@ class MyAuth extends AuthController {
             $password=URequest::post($this->_getPasswordInputName());
 
             if($email!= null) {
-                $user=DAO::getOne(User::class, 'email= ?',false, [$email]);
+                $user=DAO::getOne(User::class, 'email=?',false, [$email]);
                 if (isset($user)) {
                     return $user;
                 }
