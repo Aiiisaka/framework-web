@@ -3,17 +3,17 @@ return array(
 	"siteUrl"=>"http://127.0.0.1:8090/",
 	"database"=>[
 			"type"=>"mysql",
-			"dbName"=>"",
+			"dbName"=>"groups",
 			"serverName"=>"127.0.0.1",
 			"port"=>3306,
 			"user"=>"root",
 			"password"=>"5z&32mZM&",
-			"options"=>array(),
+			"options"=>[],
 			"cache"=>false,
 			"wrapper"=>"Ubiquity\\db\\providers\\pdo\\PDOWrapper"
 			],
 	"sessionName"=>"s602a7040c5466",
-	"namespaces"=>array(),
+	"namespaces"=>[],
 	"templateEngine"=>"Ubiquity\\views\\engine\\Twig",
 	"templateEngineOptions"=>[
 			"cache"=>false
@@ -26,14 +26,16 @@ return array(
   'sessionName' => 's602a7040c5466',
 )['sessionName'],\Monolog\Logger::INFO);},
 	"di"=>[
-			"@exec"=>array("jquery"=>function ($controller){
+			"@exec"=>[
+					"jquery"=>function ($controller){
 						return \Ubiquity\core\Framework::diSemantic($controller);
-					})
+					}
+					]
 			],
 	"cache"=>[
 			"directory"=>"cache/",
 			"system"=>"Ubiquity\\cache\\system\\ArrayCache",
-			"params"=>array()
+			"params"=>[]
 			],
 	"mvcNS"=>[
 			"models"=>"models",
