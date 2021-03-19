@@ -9,7 +9,7 @@
                     <a href="{{ path('order') }}" class="ui vertical animated black fluid button" data-target="#store-order" tabindex="0">
                         <div class="hidden content">Access to my orders ...</div>
                         <div class="visible content">
-                            <i class="boxes icon"></i>&nbsp;My orders (5)
+                            <i class="boxes icon"></i>&nbsp;My orders ({{ numOrders }})
                         </div>
                     </a>
                 </div>
@@ -47,7 +47,7 @@
                     <a href="{{ path('basket') }}" class="ui vertical animated black fluid button" data-target="#basket" tabindex="0">
                         <div class="hidden content">Access to my baskets ...</div>
                         <div class="visible content">
-                            <i class="shopping bag icon"></i>&nbsp;My baskets (2)
+                            <i class="shopping bag icon"></i>&nbsp;My baskets ({{ numBaskets }})
                         </div>
                     </a>
                 </div>
@@ -64,7 +64,16 @@
         <fieldset>
             <legend>&nbsp;Current promotions&nbsp;</legend>
             <div class="couleur">
-
+                <div class="ui celled list">
+                    {% for promo in articlesPromo %}
+                    <div class="item">
+                        {{promo.name}}
+                        <div class="content">
+                            <div class="description">{{promo.price}}</div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
             </div>
         </fieldset>
     </div>

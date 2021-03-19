@@ -7,7 +7,7 @@ return array(
 			"serverName"=>"127.0.0.1",
 			"port"=>3306,
 			"user"=>"root",
-			"password"=>"5z&32mZM&",
+			"password"=>"",
 			"options"=>array(),
 			"cache"=>false,
 			"wrapper"=>"Ubiquity\\db\\providers\\pdo\\PDOWrapper"
