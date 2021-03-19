@@ -33,10 +33,12 @@ class MyAuth extends AuthController {
     public function direct($name){
         $name=urldecode($name);
         $user = DAO::getOne(User::class, 'email=?', false, [$name]);
+
         if($user) {
             USession::set('idUser', $user->getId());
             return $this->onConnect($user);
         }
+
         $this->_invalid=true;
         $this->initializeAuth();
         $this->onBadCreditentials ();
@@ -50,6 +52,7 @@ class MyAuth extends AuthController {
 
             if($email!= null) {
                 $user=DAO::getOne(User::class, 'email=?',false, [$email]);
+
                 if (isset($user)) {
                     return $user;
                 }

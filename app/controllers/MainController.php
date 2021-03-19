@@ -46,9 +46,10 @@ class MainController extends ControllerBase {
 
     #[Route(path:"store/browse", name:"store")]
     public function store() {
+        $numSection = count(DAO::getAll(Product::class, 'idSection=?', false, [2]));
         $section = DAO::getAll(Section::class, false, false);
         $produitsPromo = DAO::getAll(Product::class, 'promotion<?', false, [0]);
-        $this->loadDefaultView(['section'=>$section, 'produitsPromo'=>$produitsPromo]);
+        $this->loadDefaultView(['section'=>$section, 'produitsPromo'=>$produitsPromo, 'numSection'=>$numSection]);
     }
 
     #[Route(path:"basket/new", name:"basket.new")]
