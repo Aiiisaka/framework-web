@@ -2,7 +2,21 @@
     <div class="column two wide"></div>
     <div class="column twelve wide">
         <div class="couleur">
-            List Baskets
+            <div class="ui horizontal list">
+                {% for basket in baskets %}
+                <div class="item" style="text-align:center; width: 25%">
+                    {{basket.name}}
+                    <div class="content" style="font-size: 12px">
+                        <br>
+                        <div class="ui yellow label">{{basket.basketdetails.product.name}}</div>
+                        &nbsp;
+                        <div class="header">{{basket.basketdetails.quantity}}</div>
+                        <div class="description label" style="font-size: smaller">{{basket.basketdetails.product.price}} €</div>
+                        <br>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
         </div>
     </div>
 </div>

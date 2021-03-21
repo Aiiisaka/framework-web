@@ -46,6 +46,22 @@
                 <div class="item">
                     <fieldset>
                         <legend>&nbsp;Recently viewed&nbsp;</legend>
+                        {% for product in recentlyViewedProducts %}
+                        <div class="item" style="text-align:center; width: 25%">
+                            <a href="{{path('product', [product.section, product.id])}}" data-target="#store-product" tabindex="0">
+                                <br>
+                                <img src="{{product.image}}" width="75%" alt="Product Image"/>
+                                <div class="content" style="font-size: 12px">
+                                    <br>
+                                    <div class="ui yellow label">{{product.name}}</div>
+                                    &nbsp;
+                                    <div class="header">{{product.price}} €</div>
+                                    <div class="description label" style="font-size: smaller">{{product.promotion}} €</div>
+                                    <br>
+                                </div>
+                            </a>
+                        </div>
+                        {% endfor %}
                     </fieldset>
                 </div>
             </div>
