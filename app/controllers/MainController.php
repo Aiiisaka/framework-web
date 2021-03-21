@@ -70,15 +70,25 @@ class MainController extends ControllerBase {
         $this->loadDefaultView(['section'=>$section, 'sections'=>$sections]);
     }
 
-    #[Route(path:"store/product/{idProduct}", name:"product")]
-    public function product($idProduct){
+    #[Route(path:"store/product/{idSection}/{idProduct}", name:"product")]
+    public function product($idSection, $idProduct){
         $sections = DAO::getAll(Section::class, false, ['products']);
+        $section = DAO::getById(Product::class, $idSection);
         $product = DAO::getById(Product::class, $idProduct);
-        $this->loadDefaultView(['sections'=>$sections, 'product'=>$product]);
+        $this->loadDefaultView(['sections'=>$sections, 'product'=>$product, 'section'=>$section]);
+    }
+
+    #[Route(path:"basket/add/{idProduct}", name:"addProduct")]
+    public function addProduct($idProduct){
+        $this->loadDefaultView();
+    }
+
+    #[Route(path:"basket/add/{idBasket}/{idProduct}", name:"addProductTo")]
+    public function addProductTo($idBasket, $idProduct){
+        $this->loadDefaultView();
     }
 
 	protected function getAuthController(): AuthController {
         return new MyAuth($this);
     }
-
 }

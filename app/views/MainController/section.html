@@ -5,7 +5,7 @@
         <div class="inverseCouleur">
             <div class="ui celled list">
                 {% for sectionProduct in sections %}
-                <div class="item" style="text-align: center">
+                <div class="item" style="padding: 2%; margin-left:15%;">
                     <a href="{{path('section',[sectionProduct.id])}}" data-target="#store-section" tabindex="0">
                         <div class="ui yellow button" style="font-size: 10px">{{sectionProduct.name}} ({{sectionProduct.products|length}})</div>
                     </a>
@@ -35,22 +35,32 @@
                     <legend>&nbsp;Products&nbsp;</legend>
                     <div class="ui horizontal list">
                         {% for prod in section.products %}
-                        <div class="item" style="text-align: center">
-                            <a href="{{path('product', [prod.id])}}" data-target="#store-product" tabindex="0">
-                                <div class="ui yellow label">{{prod.name}}</div>
-                                <div class="content" style="text-align:left; font-size: 10px">
+                        <div class="item" style="text-align:center; width: 20%">
+                            <a href="{{path('product', [section.id, prod.id])}}" data-target="#store-product" tabindex="0">
+                                <img src="{{prod.image}}" width="75%" alt="Product Image"/>
+                                <div class="content" style="font-size: 10px">
                                     <br>
+                                    <div class="ui yellow label">{{prod.name}}</div>
+                                    <br><br>
                                     <div class="header">{{prod.price}} €</div>
                                     <div class="description label" style="font-size: smaller">{{prod.promotion}} €</div>
-                                    </br>
+                                    <br>
                                 </div>
                             </a>
-                                <div class="content">
-                                    <div class="footer">
-                                        <div class="tiny ui compact olive left basic button">&nbsp;&nbsp;<i class="icon cart arrow down"></i></div>
-                                        <div class="tiny ui compact grey right basic button">&nbsp;&nbsp;<i class="icon cart plus"></i></div>
-                                    </div>
+
+                            <a href="{{ path('addProduct', [prod.id]) }}" class="tiny ui animated olive button" data-target="#new-basket" tabindex="0">
+                                <div class="hidden content">Add</div>
+                                <div class="visible content">
+                                    <i class="icon cart arrow down"></i>
                                 </div>
+                            </a>
+
+                            <a href="{{ path('addProductTo',[prod.id, basket.id]) }}" class="tiny ui animated grey button" data-target="#new-basket" tabindex="0">
+                                <div class="hidden content">Other</div>
+                                <div class="visible content">
+                                    <i class="icon cart plus"></i>
+                                </div>
+                            </a>
                         </div>
                         {% endfor %}
                     </div>

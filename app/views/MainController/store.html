@@ -5,7 +5,7 @@
         <div class="inverseCouleur">
             <div class="ui celled list">
                 {% for sectionProduct in section %}
-                <div class="item" style="text-align: center">
+                <div class="item" style="padding: 2%; margin-left:15%;">
                     <a href="{{path('section',[sectionProduct.id])}}" data-target="#store-section" tabindex="0">
                         <div class="ui yellow button" style="font-size: 10px">{{sectionProduct.name}} ({{sectionProduct.products|length}})</div>
                     </a>
@@ -22,13 +22,17 @@
                         <legend>&nbsp;Current promotions&nbsp;</legend>
                             <div class="ui horizontal list">
                                 {% for promo in produitsPromo %}
-                                <div class="item" style="text-align: center">
-                                    <a href="{{path('product', [promo.id])}}" data-target="#store-product" tabindex="0">
-                                        <div class="ui yellow label">{{promo.name}}</div>
-                                        <div class="content" style="font-size: 10px">
+                                <div class="item" style="text-align:center; width: 25%">
+                                    <a href="{{path('product', [promo.section, promo.id])}}" data-target="#store-product" tabindex="0">
+                                        <br>
+                                        <img src="{{promo.image}}" width="75%" alt="Promotion Image"/>
+                                        <div class="content" style="font-size: 12px">
                                             <br>
-                                            <div class="header">Promotion : {{promo.promotion}}</div>
-                                            <div class="description label">Price : {{promo.price}}</div>
+                                            <div class="ui yellow label">{{promo.name}}</div>
+                                            &nbsp;
+                                            <div class="header">Promotion : {{promo.promotion}} €</div>
+                                            <div class="description label" style="font-size: smaller">Price : {{promo.price}} €</div>
+                                            <br>
                                         </div>
                                     </a>
                                 </div>
