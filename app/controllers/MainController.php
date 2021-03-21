@@ -32,10 +32,7 @@ class MainController extends ControllerBase {
 
 	#[Route(path: "home", name: "home")]
 	public function index() {
-        USession::set('recentlyViewedProducts', []);
         $products = USession::get('recentlyViewedProducts');
-        print_r($products);
-
         $numOrders = count(DAO::getAll(Order::class, 'idUser=?', false, [USession::get("idUser")]));
         $numBaskets = count(DAO::getAll(Basket::class, 'idUser=?', false, [USession::get("idUser")]));
         $produitsPromo = DAO::getAll(Product::class, 'promotion<?', false, [0]);
@@ -59,8 +56,6 @@ class MainController extends ControllerBase {
     #[Route(path:"store/browse", name:"store")]
     public function store() {
         $products = USession::get("recentlyViewedProducts");
-        print_r($products);
-
         $section = DAO::getAll(Section::class, false, ['products']);
         $produitsPromo = DAO::getAll(Product::class, 'promotion<?', false, [0]);
         $this->loadDefaultView(['section'=>$section, 'produitsPromo'=>$produitsPromo, 'recentlyViewedProducts'=>$products]);
@@ -92,9 +87,8 @@ class MainController extends ControllerBase {
         $product = DAO::getById(Product::class, $idProduct);
 
         $products = USession::get("recentlyViewedProducts");
-        print_r($products);
+        array_push($products, $product);
         USession::set("recentlyViewedProducts", $products);
-        print_r($products);
 
         $this->loadDefaultView(['sections'=>$sections, 'product'=>$product, 'section'=>$section]);
     }

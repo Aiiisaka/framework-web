@@ -97,10 +97,10 @@
                 <legend>&nbsp;Recently viewed&nbsp;</legend>
                 <div class="ui horizontal list">
                     {% for product in recentlyViewedProducts %}
-                    <div class="item" style="text-align:center; width: 25%">
-                        <a href="{{path('product', [product.section, product.id])}}" data-target="#store-product" tabindex="0">
+                    <div class="item" style="text-align:center; width: 15%">
+                        <a href="{{path('product', [product.section.id, product.id])}}" data-target="#store-product" tabindex="0">
                             <br>
-                            <img src="{{product.image}}" width="75%" alt="Product Image"/>
+                            <img src="{{product.image}}" width="50%" alt="Product Image"/>
                             <div class="content" style="font-size: 12px">
                                 <br>
                                 <div class="ui yellow label">{{product.name}}</div>

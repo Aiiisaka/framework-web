@@ -25,6 +25,7 @@ class MyAuth extends AuthController {
         if (isset($urlParts)) {
             $this->_forward(implode("/",$urlParts));
         } else {
+            USession::set('recentlyViewedProducts', []);
             UResponse::header('location','/home');
         }
     }
