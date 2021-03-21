@@ -46,10 +46,9 @@ class MainController extends ControllerBase {
 
     #[Route(path:"store/browse", name:"store")]
     public function store() {
-        $numSection = count(DAO::getAll(Product::class, 'idSection=?', false, [2]));
-        $section = DAO::getAll(Section::class, false, false);
+        $section = DAO::getAll(Section::class, false, ['products']);
         $produitsPromo = DAO::getAll(Product::class, 'promotion<?', false, [0]);
-        $this->loadDefaultView(['section'=>$section, 'produitsPromo'=>$produitsPromo, 'numSection'=>$numSection]);
+        $this->loadDefaultView(['section'=>$section, 'produitsPromo'=>$produitsPromo]);
     }
 
     #[Route(path:"basket/new", name:"basket.new")]
@@ -64,7 +63,22 @@ class MainController extends ControllerBase {
         $this->loadDefaultView(['baskets'=>$basket]);
     }
 
+    #[Route(path:"store/section/{id}", name:"section")]
+    public function section($id) {
+        $sections = DAO::getAll(Section::class, false, ['products']);
+        $section = DAO::getById(Section::class, $id, ['products']);
+        $this->loadDefaultView(['section'=>$section, 'sections'=>$sections]);
+    }
+
+    #[Route(path:"store/product/{idProduct}", name:"product")]
+    public function product($idProduct){
+        $sections = DAO::getAll(Section::class, false, ['products']);
+        $product = DAO::getById(Product::class, $idProduct);
+        $this->loadDefaultView(['sections'=>$sections, 'product'=>$product]);
+    }
+
 	protected function getAuthController(): AuthController {
         return new MyAuth($this);
     }
+
 }

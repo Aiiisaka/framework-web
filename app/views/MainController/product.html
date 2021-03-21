@@ -1,0 +1,92 @@
+<div class="ui grid">
+    <div class="column two wide"></div>
+
+    <div class="column four wide">
+        <div class="inverseCouleur">
+            <div class="ui celled list">
+                {% for sectionProduct in sections %}
+                <div class="item" style="text-align: center">
+                    <a href="{{path('section',[sectionProduct.id])}}" data-target="#store-section" tabindex="0">
+                        <div class="ui yellow button" style="font-size: 10px">{{sectionProduct.name}} ({{sectionProduct.products|length}})</div>
+                    </a>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    <div class="column eight wide">
+        <div class="couleur">
+            <div class="ui middle aligned divided list">
+                <div class="item">
+                    <div class="right floated content">
+                        <a href="{{ path('store') }}" class="ui black button" data-target="#store-browse" tabindex="0">Store</a>
+                    </div>
+                    <div class="content">
+                        <h3>
+                            {{product.section.description}}
+                        </h3>
+                    </div>
+                </div>
+            </div>
+
+            <div class="item">
+                <fieldset>
+                    <legend>&nbsp;Product Sheet&nbsp;</legend>
+                    <div class="ui middle aligned divided list">
+                        <div class="item">
+                            <div class="left floated content">
+                                {{product.image}}
+                                <br><br>
+                                <div class="description">{{product.comments}}</div>
+                            </div>
+                            <div class="content" style="text-align:right; font-size: 10px">
+                                <div class="ui yellow label">{{product.name}}</div>
+                                <br><br>
+                                <div class="header">{{product.price}} €</div>
+                                <div class="description label" style="font-size: smaller">{{product.promotion}} €</div>
+                                <div class="description">{{product.comments}}</div>
+                                </br>
+                                <div class="footer">
+                                    <div class="tiny ui compact olive left basic button">&nbsp;&nbsp;<i class="icon cart arrow down"></i></div>
+                                    <div class="tiny ui compact grey right basic button">&nbsp;&nbsp;<i class="icon cart plus"></i></div>
+                                    <br><br><br>
+                                    <a href="{{path('section',[product.section.id])}}" data-target="#store-section" tabindex="0">
+                                        <div class="ui compact black button">{{product.section.name}}</div>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </fieldset>
+            </div>
+        </div>
+    </div>
+
+    <div class="column two wide"></div>
+    <div class="column two wide"></div>
+    <div class="column twelve wide">
+        <div class="couleur">
+            <div class="item">
+                <fieldset>
+                    <legend>&nbsp;Associated Products&nbsp;</legend>
+                    <div class="ui horizontal list">
+                        {% for prod in product.associatedproducts %}
+                        <div class="item" style="text-align: center">
+                            <a href="{{path('product', [prod.id])}}" data-target="#store-product" tabindex="0">
+                                <div class="ui yellow label">{{prod.name}}</div>
+                                <div class="content" style="font-size: 10px">
+                                    <br>
+                                    <div class="header">{{prod.price}} €</div>
+                                    <div class="description label" style="font-size: smaller">{{prod.promotion}} €</div>
+                                    </br>
+                                </div>
+                            </a>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </fieldset>
+            </div>
+        </div>
+    </div>
+</div>
