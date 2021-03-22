@@ -30,8 +30,8 @@
                                             <br>
                                             <div class="ui yellow label">{{promo.name}}</div>
                                             &nbsp;
-                                            <div class="header">Promotion : {{promo.promotion}} €</div>
-                                            <div class="description label" style="font-size: smaller">Price : {{promo.price}} €</div>
+                                            <div class="header">{{promo.promotion}} €</div>
+                                            <div class="description label" style="font-size: smaller">{{promo.price}} €</div>
                                             <br>
                                         </div>
                                     </a>
@@ -48,16 +48,16 @@
                         <legend>&nbsp;Recently viewed&nbsp;</legend>
                         <div class="ui horizontal list">
                             {% for product in recentlyViewedProducts %}
-                            <div class="item" style="text-align:center; width: 15%">
-                                <a href="{{path('product', [product.section.id, product.id])}}" data-target="#store-product" tabindex="0">
+                            <div class="item" style="text-align:center;">
+                                <a href="{{path('product', [product.section, product.id])}}" data-target="#store-product" tabindex="0">
                                     <br>
-                                    <img src="{{product.image}}" width="50%" alt="Product Image"/>
+                                    <img src="{{product.image}}" width="75%" alt="Product Image"/>
                                     <div class="content" style="font-size: 12px">
                                         <br>
                                         <div class="ui yellow label">{{product.name}}</div>
                                         &nbsp;
-                                        <div class="header">{{product.price}} €</div>
-                                        <div class="description label" style="font-size: smaller">{{product.promotion}} €</div>
+                                        <div class="header">{{product.promotion}} €</div>
+                                        <div class="description label" style="font-size: smaller">{{product.price}} €</div>
                                         <br>
                                     </div>
                                 </a>
