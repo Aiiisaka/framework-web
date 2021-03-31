@@ -39,9 +39,9 @@
                     <legend>&nbsp;Products&nbsp;</legend>
                     <div class="ui horizontal list">
                         {% for prod in section.products %}
-                        <div class="item" style="text-align:center; width: 20%">
+                        <div class="item" style="text-align:center; width: 22%">
                             <a href="{{path('product', [section.id, prod.id])}}" data-target="#store-product" tabindex="0">
-                                <img src="public/assets/img/{{prod.image}}.jpg" width="75%" alt="Product Image"/>
+                                <img src="public/assets/img/{{prod.image}}.jpg" width="100%" alt="Product Image"/>
                                 <div class="content" style="font-size: 10px">
                                     <br>
                                     <div class="ui yellow label">{{prod.name}}</div>
