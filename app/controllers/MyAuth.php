@@ -52,7 +52,7 @@ class MyAuth extends AuthController {
             $password=URequest::post($this->_getPasswordInputName());
 
             if($email!= null) {
-                $user=DAO::getOne(User::class, 'email=?',false, [$email]);
+                $user=DAO::getOne(User::class, 'email=?', false, [$email]);
 
                 if (isset($user)) {
                     return $user;

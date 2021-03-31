@@ -1,6 +1,9 @@
 <?php
 use Ubiquity\controllers\Router;
+use Ubiquity\utils\http\session\PhpSession;
+use Ubiquity\controllers\Startup;
 
+\Ubiquity\security\csrf\CsrfManager::start();
 \Ubiquity\cache\CacheManager::startProd($config);
 \Ubiquity\orm\DAO::start();
 Router::start();
