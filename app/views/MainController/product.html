@@ -65,7 +65,7 @@
                                     <div class="ui compact black button">{{product.section.name}}</div>
                                 </a>
                             </div>
-                            <img src="{{product.image}}" width="30%" alt="Product Image"></img>
+                            <img src="public/assets/img/{{product.image}}.jpg" width="30%" alt="Product Image"></img>
                             <div class="content" style="font-size: medium">
                                 <br>
                                 {{product.comments}}
@@ -88,7 +88,7 @@
                         {% for prod in product.associatedproducts %}
                         <div class="item" style="text-align:center; width: 15%">
                             <a href="{{path('product', [section.id, prod.id])}}" data-target="#store-product" tabindex="0">
-                                <img src="{{prod.image}}" width="75%" alt="Associated Product Image"/>
+                                <img src="public/assets/img/{{prod.image}}.jpg" width="75%" alt="Associated Product Image"/>
                                 <div class="content" style="font-size: 10px">
                                     <br>
                                     <div class="ui yellow label">{{prod.name}}</div>
