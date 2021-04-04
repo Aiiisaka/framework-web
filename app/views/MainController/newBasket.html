@@ -1,0 +1,35 @@
+<div class="ui grid">
+    <div class="column two wide"></div>
+    <div class="column twelve wide">
+        <div class="couleur">
+            <fieldset>
+                <legend>&nbsp;New Basket&nbsp;</legend>
+                <form id="frm-basket" class="ui form" name="frm-basket" method="post" action="{{ path('basket.new') }}">
+                    <div class="three fields">
+                        <div class="field"></div>
+                        <div class="field required">
+                            <label for="basketName">Basket Name</label>
+                            <div class="ui input">
+                                {% block _basket %}
+                                    <input id="basketName" name="basketName" type="text" placeholder="Basket Name ...">
+                                {% endblock %}
+                            </div>
+                        </div>
+                        <div class="field"></div>
+                    </div>
+
+                    <div class="ui grid">
+                        <div class="seven column row">
+                            <div class="column"></div>
+                            <div class="column"></div>
+                            <div class="column"></div>
+                            <div class="column">
+                                <button type="submit" class="ui button basic ajax _connect floated">New Basket</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </fieldset>
+        </div>
+    </div>
+</div>

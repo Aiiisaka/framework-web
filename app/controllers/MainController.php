@@ -15,6 +15,7 @@ use Ubiquity\controllers\Router;
 use Ubiquity\controllers\auth\AuthController;
 use Ubiquity\controllers\auth\WithAuthTrait;
 use Ubiquity\orm\DAO;
+use Ubiquity\utils\http\URequest;
 use Ubiquity\utils\http\UResponse;
 use Ubiquity\utils\http\USession;
 
@@ -67,14 +68,28 @@ class MainController extends ControllerBase {
 
     #[Route(path:"basket/new", name:"basket.new")]
     public function newBasket() {
-        $newBasket = DAO::getAll(Order::class, 'idUser=?', false, [USession::get("identifiant")]);
-        $this->loadDefaultView(['newBasket'=>$newBasket]);
+        if (URequest::post("basketName") != null) {
+            $user = DAO::getById(User::class, 'idUser=?', false, [USession::get("identifiant")]);
+
+            $newBasket = new MyBasket(URequest::post("basketName"), $user);
+            $newBasket->sauvegarder();
+
+            UResponse::header("location", "/".Router::path("basket"));
+        } else {
+            $this->loadDefaultView();
+        }
     }
 
     #[Route(path:"basket", name:"basket")]
     public function basket() {
-        $basket = DAO::getAll(Basket::class, 'idUser=?', false, [USession::get("identifiant")]);
-        $this->loadDefaultView(['baskets'=>$basket]);
+        $basket = USession::get("defaultBasket");
+
+        $productsList = $basket->getListProducts();
+        $prixTotal = $basket->getCalculTotal();
+        $promoTotal = $basket->getTotalPromo();
+        $quantity = $basket->getQuantity();
+
+        $this->loadDefaultView(['products'=>$productsList, 'prixTotal'=> $prixTotal, 'promo'=>$promoTotal, 'quantity'=>$quantity]);
     }
 
     #[Route(path:"store/section/{id}", name:"section")]
@@ -102,7 +117,7 @@ class MainController extends ControllerBase {
         $product = DAO::getById(Product::class, $idProduct, false);
 
         $basket = USession::get("defaultBasket");
-        $basket -> addListProduct($product, 1);
+        $basket->addListProduct($product, 1);
 
         UResponse::header("location", "/".Router::path("home"));
     }

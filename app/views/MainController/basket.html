@@ -3,22 +3,73 @@
     <div class="column twelve wide">
         <div class="couleur">
             <fieldset>
-                <legend>&nbsp;Products&nbsp;</legend>
-                <div class="ui list">
-                    {% for basket in baskets %}
-                        <div class="item" style="text-align:center; width: 25%">
-                            {{basket.name}}
-                            <div class="content" style="font-size: 12px">
-                                <br>
-                                <div class="ui yellow label">{{basket.basketdetails.product.name}}</div>
-                                &nbsp;
-                                <div class="header">{{basket.basketdetails.quantity}}</div>
-                                <div class="description label" style="font-size: smaller">{{basket.basketdetails.product.price}} €</div>
-                                <br>
-                            </div>
+                <legend>&nbsp;Basket&nbsp;</legend>
+
+                <div class="ui middle aligned divided list">
+                    <div class="item">
+                        <div class="right floated content">
+                            <b style="color: darkorange">{{quantity}}</b>
+                            <i class="icon shopping basket"></i>
+                            <b style="color: darkorange">{{promo}} €</b>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            <a href="{{ path('store') }}" class="ui black button" data-target="#store-browse" tabindex="0">Store</a>
                         </div>
-                    {% endfor %}
+                    </div>
                 </div>
+
+                <div class="ui items">
+                    <hr>
+                    {% for products in products %}
+                            <div class="item">
+                                <div class="image" style="width: 25%">
+                                    <img src="public/assets/img/{{products.product.image}}.jpg" width="100%" alt="Product Image"/>
+                                </div>
+
+                                <div class="content">
+                                    <br>
+                                    <a class="header" href="{{path('product', [products.product.section, products.product.id])}}" data-target="#store-product" tabindex="0">
+                                        {{products.product.name}}
+                                    </a>
+                                    <br><br>
+                                    <div class="meta">
+                                        <span>Quantity : {{products.quantity}}</span>
+                                    </div>
+                                    <div class="extra">
+                                        Price : {{products.product.price}} €
+                                        <br>
+                                        {{products.product.promotion}} €
+                                    </div>
+                                </div>
+                            </div>
+                    <hr>
+                    {% endfor %}
+                    <div class="content" style="text-align: right">
+                        <br>
+                        <div style="font-size: smaller">
+                            Quantity : {{quantity}} products
+                            <br>
+                            Without promotion : {{prixTotal}} €
+                        </div>
+
+                        <h4 style="font-size: large">
+                            Total price : {{promo}} €
+                        </h4>
+                        <br>
+                    </div>
+                </div>
+
+                <div class="ui middle aligned divided list">
+                    <div class="item">
+                        <div class="left floated content">
+                            <a href="{{ path('store') }}" class="ui red button" data-target="#store-browse" tabindex="0"><i class="icon ban"></i>&nbsp;Delete All</a>
+                        </div>
+
+                        <div class="right floated content">
+                            <a href="{{ path('store') }}" class="ui green button" data-target="#store-browse" tabindex="0">Next Step&nbsp;<i class="icon angle right"></i></a>
+                        </div>
+                    </div>
+                </div>
+
             </fieldset>
         </div>
     </div>
