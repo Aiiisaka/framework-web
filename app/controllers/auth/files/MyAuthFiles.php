@@ -3,7 +3,7 @@ namespace controllers\auth\files;
 
 use Ubiquity\controllers\auth\AuthFiles;
 
- /**
+/**
   * Class MyAuthFiles
   */
 class MyAuthFiles extends AuthFiles {
@@ -12,7 +12,7 @@ class MyAuthFiles extends AuthFiles {
 	}
 
 	public function getViewInfo(){
-		return "MyAuth/info.html";
+        return "MyAuth/info.html";
 	}
 
 	public function getViewNoAccess(){

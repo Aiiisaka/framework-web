@@ -89,6 +89,9 @@ class MainController extends ControllerBase {
         $promoTotal = $basket->getTotalPromo();
         $quantity = $basket->getQuantity();
 
+        USession::set("quantite", $quantity);
+        USession::set("prix", $promoTotal);
+
         $this->loadDefaultView(['products'=>$productsList, 'prixTotal'=> $prixTotal, 'promo'=>$promoTotal, 'quantity'=>$quantity]);
     }
 

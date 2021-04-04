@@ -44,7 +44,7 @@ class MyAuth extends AuthController {
                 if (isset($user) && $user->getPassword() == $password) {
                     USession::set("identifiant", $user->getId());
 
-                    $myBasket = new MyBasket("_current_", $user);
+                    $myBasket = new MyBasket("current", $user);
                     USession::set("defaultBasket", $myBasket);
 
                     return $user;
@@ -67,7 +67,10 @@ class MyAuth extends AuthController {
 
     protected function initializeAuth() {
         if (!URequest::isAjax()){
-            $this->loadView('@activeTheme/main/vHeader.html');
+            $prix = USession::get('prix');
+            $quantite = USession::get('quantite');
+
+            $this->loadView('@activeTheme/main/vHeader.html', ['price'=>$prix, 'quantity'=>$quantite]);
         }
     }
     public function _getBodySelector() {
