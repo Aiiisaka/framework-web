@@ -9,18 +9,18 @@
         {% block _basketInfo %}
             <a href="{{ path('basket') }}" tabindex="0">
                 <div class="ui label">
-                    <i style="color: darkorange">{{ numBaskets }}</i>
+                    <i style="color: darkorange">{{quantity}}</i>
                     <i class="icon shopping basket"></i>
                     Basket
-                    <i style="color: darkorange">150 €</i>
+                    <i style="color: darkorange">{{promo}} €</i>
                 </div>
             </a>
         {% endblock %}
 
         {% block _userInfo %}
-        <div class="ui yellow label">
-            {{ connected|raw }}
-        </div>
+            <div class="ui yellow label">
+                {{ connected|raw }}
+            </div>
         {% endblock %}
 
         {% block _logoutButton %}

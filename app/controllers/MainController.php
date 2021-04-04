@@ -8,8 +8,8 @@ use models\Order;
 use models\Product;
 use models\Section;
 use services\ui\StoreUI;
-use Ubiquity\attributes\items\di\Autowired;
 use services\dao\StoreRepository;
+use Ubiquity\attributes\items\di\Autowired;
 use Ubiquity\attributes\items\router\Route;
 use Ubiquity\controllers\Router;
 use Ubiquity\controllers\auth\AuthController;
@@ -100,30 +100,30 @@ class MainController extends ControllerBase {
     }
 
     #[Route(path:"store/product/{idSection}/{idProduct}", name:"product")]
-    public function product($idSection, $idProduct){
+    public function product($idSection, $idProduct) {
         $sections = DAO::getAll(Section::class, false, ['products']);
         $section = DAO::getById(Product::class, $idSection);
         $product = DAO::getById(Product::class, $idProduct);
 
         $products = USession::get("recentlyViewedProducts");
-        array_push($products, $product);
+        $products[] = $product;
         USession::set("recentlyViewedProducts", $products);
 
         $this->loadDefaultView(['sections'=>$sections, 'product'=>$product, 'section'=>$section]);
     }
 
     #[Route(path:"basket/add/{idProduct}", name:"addProduct")]
-    public function addProduct($idProduct){
+    public function addProduct($idProduct) {
         $product = DAO::getById(Product::class, $idProduct, false);
 
         $basket = USession::get("defaultBasket");
         $basket->addListProduct($product, 1);
 
-        UResponse::header("location", "/".Router::path("home"));
+        UResponse::header("location", "/".Router::path("store"));
     }
 
     #[Route(path:"basket/add/{idBasket}/{idProduct}", name:"addProductTo")]
-    public function addProductTo($idBasket, $idProduct){
+    public function addProductTo($idBasket, $idProduct) {
         $product = DAO::getById(Product::class, $idProduct, false);
         $basket = DAO::getById(Basket::class, $idBasket, false);
 
@@ -134,7 +134,39 @@ class MainController extends ControllerBase {
 
         $detailsBasket->setQuantity(1);
 
-        UResponse::header("location", "/".Router::path("home"));
+        UResponse::header("location", "/".Router::path("store"));
+    }
+
+    #[Route(path:"basket/clear/{idProduct}", name:"basket.clearOne")]
+    public function clearOne($idProduct) {
+        $basketDetails = USession::get("defaultBasket");
+        $basketDetails->deleteProduct($idProduct);
+
+        UResponse::header("location", "/".Router::path("basket"));
+    }
+
+    #[Route(path:"basket/clear", name:"basket.clear")]
+    public function clear() {
+        $basketDetails = USession::get("defaultBasket");
+        $basketDetails->deleteListProduct();
+
+        UResponse::header("location", "/".Router::path("basket"));
+    }
+
+    #[Route(path:"basket/validate", name:"basket.validate")]
+    public function basketValidate() {
+        $basket = USession::get("defaultBasket");
+
+        $prixTotal = $basket->getCalculTotal();
+        $promoTotal = $basket->getTotalPromo();
+        $quantity = $basket->getQuantity();
+
+        $this->loadDefaultView(['prixTotal'=> $prixTotal, 'promo'=>$promoTotal, 'quantity'=>$quantity]);
+    }
+
+    #[Route(path:"basket/command", name:"basket.command")]
+    public function basketCommand() {
+
     }
 
 	protected function getAuthController(): AuthController {

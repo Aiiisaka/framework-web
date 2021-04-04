@@ -33,6 +33,20 @@ class MyBasket {
         }
     }
 
+    public function deleteListProduct() {
+        foreach ($this->listProducts as $key=>$list) {
+            unset($this->listProducts[$key]);
+        }
+    }
+
+    public function deleteProduct($idProduct) {
+        foreach ($this->listProducts as $key=>$list) {
+            if ($list['product']->getId() == $idProduct) {
+                unset($this->listProducts[$key]);
+            }
+        }
+    }
+
     public function sauvegarder() {
         try {
             DAO::beginTransaction();

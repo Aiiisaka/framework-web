@@ -1,0 +1,40 @@
+<div class="ui grid">
+    <div class="column two wide"></div>
+    <div class="column twelve wide">
+        <div class="couleur">
+            <div class="ui items">
+                <div class="item">
+                    <div class="left floated content" style="text-align: center">
+                        <br>
+                        <i class="icon truck"></i>Command
+                        <br>
+                        <b style="color: darkorange">{{quantity}}</b>
+                        <i class="icon shopping basket"></i>
+                        <b style="color: darkorange">{{promo}} €</b>
+                    </div>
+                    <div class="right floated content" style="text-align: center">
+                        <br>
+                        <a href="{{ path('basket') }}" class="ui black button" data-target="#basket" tabindex="0">Basket</a>
+                    </div>
+                </div>
+            </div>
+
+            <fieldset>
+                <legend>&nbsp;Choice Withdrawals Periods&nbsp;</legend>
+
+                <div class="ui middle aligned divided list">
+                    <div class="item">
+                        <div class="left floated content">
+                            <a href="{{ path('basket.clear') }}" class="ui red button" data-target="#basket-clear" tabindex="0"><i class="icon trash alternate"></i>&nbsp;Delete All</a>
+                        </div>
+
+                        <div class="right floated content">
+                            <a href="{{ path('basket.command') }}" class="ui green button" data-target="#basket-command" tabindex="0">Command&nbsp;&nbsp;<i class="icon check"></i></a>
+                        </div>
+                    </div>
+                </div>
+
+            </fieldset>
+        </div>
+    </div>
+</div>

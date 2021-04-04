@@ -2,21 +2,25 @@
     <div class="column two wide"></div>
     <div class="column twelve wide">
         <div class="couleur">
-            <fieldset>
-                <legend>&nbsp;Basket&nbsp;</legend>
-
-                <div class="ui middle aligned divided list">
-                    <div class="item">
-                        <div class="right floated content">
-                            <b style="color: darkorange">{{quantity}}</b>
-                            <i class="icon shopping basket"></i>
-                            <b style="color: darkorange">{{promo}} €</b>
-                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                            <a href="{{ path('store') }}" class="ui black button" data-target="#store-browse" tabindex="0">Store</a>
-                        </div>
+            <div class="ui items">
+                <div class="item">
+                    <div class="left floated content" style="text-align: center">
+                        <br>
+                        <i class="icon shopping bag"></i>Basket
+                        <br>
+                        <b style="color: darkorange">{{quantity}}</b>
+                        <i class="icon shopping basket"></i>
+                        <b style="color: darkorange">{{promo}} €</b>
+                    </div>
+                    <div class="right floated content" style="text-align: center">
+                        <br>
+                        <a href="{{ path('store') }}" class="ui black button" data-target="#store-browse" tabindex="0">Store</a>
                     </div>
                 </div>
+            </div>
 
+            <fieldset>
+                <legend>&nbsp;Basket&nbsp;</legend>
                 <div class="ui items">
                     <hr>
                     {% for products in products %}
@@ -39,6 +43,8 @@
                                         <br>
                                         {{products.product.promotion}} €
                                     </div>
+                                    <br>
+                                    <a href="{{ path('basket.clearOne', [products.product.id]) }}" class="ui mini red button" data-target="#basket-clearOne" tabindex="0"><i class="icon close"></i>&nbsp;Delete</a>
                                 </div>
                             </div>
                     <hr>
@@ -61,11 +67,11 @@
                 <div class="ui middle aligned divided list">
                     <div class="item">
                         <div class="left floated content">
-                            <a href="{{ path('store') }}" class="ui red button" data-target="#store-browse" tabindex="0"><i class="icon ban"></i>&nbsp;Delete All</a>
+                            <a href="{{ path('basket.clear') }}" class="ui red button" data-target="#basket-clear" tabindex="0"><i class="icon trash alternate"></i>&nbsp;Delete All</a>
                         </div>
 
                         <div class="right floated content">
-                            <a href="{{ path('store') }}" class="ui green button" data-target="#store-browse" tabindex="0">Next Step&nbsp;<i class="icon angle right"></i></a>
+                            <a href="{{ path('basket.validate') }}" class="ui green button" data-target="#basket-validate" tabindex="0">Next Step&nbsp;<i class="icon angle right"></i></a>
                         </div>
                     </div>
                 </div>
