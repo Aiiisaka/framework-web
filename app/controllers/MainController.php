@@ -1,6 +1,7 @@
 <?php
 namespace controllers;
 
+use classes\MyBasket;
 use models\Basket;
 use models\Basketdetail;
 use models\Order;
@@ -10,6 +11,7 @@ use services\ui\StoreUI;
 use Ubiquity\attributes\items\di\Autowired;
 use services\dao\StoreRepository;
 use Ubiquity\attributes\items\router\Route;
+use Ubiquity\controllers\Router;
 use Ubiquity\controllers\auth\AuthController;
 use Ubiquity\controllers\auth\WithAuthTrait;
 use Ubiquity\orm\DAO;
@@ -32,10 +34,12 @@ class MainController extends ControllerBase {
 
 	#[Route(path: "home", name: "home")]
 	public function index() {
-        $products = USession::get('recentlyViewedProducts');
-        $numOrders = count(DAO::getAll(Order::class, 'idUser=?', false, [USession::get("idUser")]));
-        $numBaskets = count(DAO::getAll(Basket::class, 'idUser=?', false, [USession::get("idUser")]));
+        $products = USession::get("recentlyViewedProducts");
+
+        $numOrders = count(DAO::getAll(Order::class, 'idUser=?', false, [USession::get("identifiant")]));
+        $numBaskets = count(DAO::getAll(Basket::class, 'idUser=?', false, [USession::get("identifiant")]));
         $produitsPromo = DAO::getAll(Product::class, 'promotion<?', false, [0]);
+
         $this->loadDefaultView(['numOrders'=>$numOrders, 'numBaskets'=>$numBaskets, 'produitsPromo'=>$produitsPromo, 'recentlyViewedProducts'=>$products]);
 	}
 
@@ -49,7 +53,7 @@ class MainController extends ControllerBase {
 
     #[Route(path:"store/order", name:"order")]
     public function order() {
-        $order = DAO::getAll(Order::class, 'idUser=?', false, [USession::get("idUser")]);
+        $order = DAO::getAll(Order::class, 'idUser=?', false, [USession::get("identifiant")]);
         $this->loadDefaultView(['order'=>$order]);
     }
 
@@ -63,13 +67,13 @@ class MainController extends ControllerBase {
 
     #[Route(path:"basket/new", name:"basket.new")]
     public function newBasket() {
-        $newBasket = DAO::getAll(Order::class, 'idUser=?', false, [USession::get("idUser")]);
+        $newBasket = DAO::getAll(Order::class, 'idUser=?', false, [USession::get("identifiant")]);
         $this->loadDefaultView(['newBasket'=>$newBasket]);
     }
 
     #[Route(path:"basket", name:"basket")]
     public function basket() {
-        $basket = DAO::getAll(Basket::class, 'idUser=?', false, [USession::get("idUser")]);
+        $basket = DAO::getAll(Basket::class, 'idUser=?', false, [USession::get("identifiant")]);
         $this->loadDefaultView(['baskets'=>$basket]);
     }
 
@@ -95,20 +99,27 @@ class MainController extends ControllerBase {
 
     #[Route(path:"basket/add/{idProduct}", name:"addProduct")]
     public function addProduct($idProduct){
-        $basket = DAO::getOne(Basket::class, 'idUser=?', false, [USession::get("idUser")]);
+        $product = DAO::getById(Product::class, $idProduct, false);
 
-        $details = new Basketdetail();
-        $details->setBasket($basket);
+        $basket = USession::get("defaultBasket");
+        $basket -> addListProduct($product, 1);
 
-        $details->setIdProduct($idProduct); $details->setQuantity(1);
-
-        DAO::save($details);
-        UResponse::header('location', '/home');
+        UResponse::header("location", "/".Router::path("home"));
     }
 
     #[Route(path:"basket/add/{idBasket}/{idProduct}", name:"addProductTo")]
     public function addProductTo($idBasket, $idProduct){
-        $this->loadDefaultView();
+        $product = DAO::getById(Product::class, $idProduct, false);
+        $basket = DAO::getById(Basket::class, $idBasket, false);
+
+        $detailsBasket = new Basketdetail();
+
+        $detailsBasket->setProduct($product);
+        $detailsBasket->setBasket($basket);
+
+        $detailsBasket->setQuantity(1);
+
+        UResponse::header("location", "/".Router::path("home"));
     }
 
 	protected function getAuthController(): AuthController {

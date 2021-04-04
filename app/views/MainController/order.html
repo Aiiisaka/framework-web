@@ -2,7 +2,28 @@
     <div class="column two wide"></div>
     <div class="column twelve wide">
         <div class="couleur">
-            List Orders
+            <fieldset>
+                <legend>&nbsp;My Orders&nbsp;</legend>
+                <div class="ui horizontal list">
+                    {% for orders in order %}
+                        <div class="item" style="text-align:center;">
+                            <div class="ui yellow label">Items number : {{orders.itemsNumber}}</div>
+                            <div class="content" style="font-size: 12px">
+                                <br>
+                                Status : {{orders.status}}
+                                <br><br>
+                                Creation date : {{orders.dateCreation}}
+                                <br><br>
+                                <div class="header">Amount : {{orders.amount}} €</div>
+                                <div class="description label" style="font-size: smaller">
+                                    To pay : {{orders.toPay}} €
+                                </div>
+                                <br>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </fieldset>
         </div>
     </div>
 </div>
