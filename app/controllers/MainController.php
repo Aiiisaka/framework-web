@@ -7,6 +7,7 @@ use models\Basketdetail;
 use models\Order;
 use models\Product;
 use models\Section;
+use models\Timeslot;
 use models\User;
 use services\ui\StoreUI;
 use services\dao\StoreRepository;
@@ -16,6 +17,7 @@ use Ubiquity\controllers\Router;
 use Ubiquity\controllers\auth\AuthController;
 use Ubiquity\controllers\auth\WithAuthTrait;
 use Ubiquity\orm\DAO;
+use Ubiquity\utils\base\UArrayModels;
 use Ubiquity\utils\http\URequest;
 use Ubiquity\utils\http\UResponse;
 use Ubiquity\utils\http\USession;
@@ -194,13 +196,16 @@ class MainController extends ControllerBase {
     public function basketValidate() {
         $basket = USession::get("defaultBasket");
 
-        $slots = DAO::getAll(Timeslot::class, 'full=?', false, [0]);
+        $slotsDate = DAO::getAll(Timeslot::class, 'full=?', false, [0]);
+        $slots=UArrayModels::groupBy($slotsDate,
+            fn($s) => strftime( '%A %d %B', \strtotime($s->getSlotDate()))
+        );
 
         $prixTotal = $basket->getCalculTotal();
         $promoTotal = $basket->getTotalPromo();
         $quantity = $basket->getQuantity();
 
-        //$this->loadDefaultView(['prixTotal'=> $prixTotal, 'promo'=>$promoTotal, 'quantity'=>$quantity, 'slots'=>$slots]);
+        $this->loadDefaultView(['prixTotal'=> $prixTotal, 'promo'=>$promoTotal, 'quantity'=>$quantity, 'slots'=>$slots]);
     }
 
     // VALIDER LA COMMANDE
