@@ -33,6 +33,7 @@ class MainController extends ControllerBase {
     #[Autowired]
     private StoreRepository $repo;
 
+    // HOME
 	#[Route(path: "home", name: "home")]
 	public function index() {
         $products = USession::get("recentlyViewedProducts");
@@ -52,12 +53,14 @@ class MainController extends ControllerBase {
         $this->repo = $repo;
     }
 
+    // LES COMMANDES
     #[Route(path:"store/order", name:"order")]
     public function order() {
         $order = DAO::getAll(Order::class, 'idUser=?', false, [USession::get("identifiant")]);
         $this->loadDefaultView(['order'=>$order]);
     }
 
+    // STORE
     #[Route(path:"store/browse", name:"store")]
     public function store() {
         $products = USession::get("recentlyViewedProducts");
@@ -66,35 +69,7 @@ class MainController extends ControllerBase {
         $this->loadDefaultView(['section'=>$section, 'produitsPromo'=>$produitsPromo, 'recentlyViewedProducts'=>$products]);
     }
 
-    #[Route(path:"basket/new", name:"basket.new")]
-    public function newBasket() {
-        if (URequest::post("basketName") != null) {
-            $user = DAO::getById(User::class, 'idUser=?', false, [USession::get("identifiant")]);
-
-            $newBasket = new MyBasket(URequest::post("basketName"), $user);
-            $newBasket->sauvegarder();
-
-            UResponse::header("location", "/".Router::path("basket"));
-        } else {
-            $this->loadDefaultView();
-        }
-    }
-
-    #[Route(path:"basket", name:"basket")]
-    public function basket() {
-        $basket = USession::get("defaultBasket");
-
-        $productsList = $basket->getListProducts();
-        $prixTotal = $basket->getCalculTotal();
-        $promoTotal = $basket->getTotalPromo();
-        $quantity = $basket->getQuantity();
-
-        USession::set("quantite", $quantity);
-        USession::set("prix", $promoTotal);
-
-        $this->loadDefaultView(['products'=>$productsList, 'prixTotal'=> $prixTotal, 'promo'=>$promoTotal, 'quantity'=>$quantity]);
-    }
-
+    // AFFICHAGE DES PRODUITS EN FONCTION DE LA SECTION
     #[Route(path:"store/section/{id}", name:"section")]
     public function section($id) {
         $sections = DAO::getAll(Section::class, false, ['products']);
@@ -102,6 +77,7 @@ class MainController extends ControllerBase {
         $this->loadDefaultView(['section'=>$section, 'sections'=>$sections]);
     }
 
+    // AFFICHAGE D'UN PRODUIT
     #[Route(path:"store/product/{idSection}/{idProduct}", name:"product")]
     public function product($idSection, $idProduct) {
         $sections = DAO::getAll(Section::class, false, ['products']);
@@ -115,6 +91,7 @@ class MainController extends ControllerBase {
         $this->loadDefaultView(['sections'=>$sections, 'product'=>$product, 'section'=>$section]);
     }
 
+    // ADD AU PANIER UN PRODUIT
     #[Route(path:"basket/add/{idProduct}", name:"addProduct")]
     public function addProduct($idProduct) {
         $product = DAO::getById(Product::class, $idProduct, false);
@@ -125,6 +102,7 @@ class MainController extends ControllerBase {
         UResponse::header("location", "/".Router::path("store"));
     }
 
+    // ADD AU PANIER SPECIFIQUE UN PRODUIT
     #[Route(path:"basket/add/{idBasket}/{idProduct}", name:"addProductTo")]
     public function addProductTo($idBasket, $idProduct) {
         $product = DAO::getById(Product::class, $idProduct, false);
@@ -140,6 +118,52 @@ class MainController extends ControllerBase {
         UResponse::header("location", "/".Router::path("store"));
     }
 
+    // CREER UN NOUVEAU PANIER
+    #[Route(path:"basket/new", name:"basket.new")]
+    public function newBasket() {
+        if (URequest::post("basketName") != null && URequest::post("basketName") != "_default") {
+            $user = DAO::getById(User::class, 'idUser=?', false, [USession::get("identifiant")]);
+
+            $newBasket = new MyBasket(URequest::post("basketName"), $user);
+            $newBasket->sauvegarder();
+
+            UResponse::header("location", "/".Router::path("basket"));
+        }
+
+        $basket = DAO::getAll(Basket::class, 'idUser=?', ['basketdetails.product'], [USession::get("idUser")]);
+        $this->loadDefaultView(['baskets'=>$basket]);
+    }
+
+    // PANIER
+    #[Route(path:"basket", name:"basket")]
+    public function basket() {
+        $basket = USession::get("defaultBasket");
+
+        $productsList = $basket->getListProducts();
+        $prixTotal = $basket->getCalculTotal();
+        $promoTotal = $basket->getTotalPromo();
+        $quantity = $basket->getQuantity();
+
+        USession::set("quantite", $quantity);
+        USession::set("prix", $promoTotal);
+
+        $this->loadDefaultView(['products'=>$productsList, 'prixTotal'=> $prixTotal, 'promo'=>$promoTotal, 'quantity'=>$quantity]);
+    }
+
+    // AJOUTER QUANTITE DANS LE BASKET
+    #[Route(path: "basket/quantity/{idProduct}", name: "basket.quantity")]
+    public function basketQuantity($idProduct){
+        $basket = USession::get("defaultBasket");
+        $quantity = URequest::post("basketQuantity");
+
+        echo $quantity;
+
+        $basket->setQuantity($idProduct, $quantity);
+
+        UResponse::header("location", "/".Router::path("basket"));
+	}
+
+    // ENLEVER UN PRODUIT PANIER
     #[Route(path:"basket/clear/{idProduct}", name:"basket.clearOne")]
     public function clearOne($idProduct) {
         $basketDetails = USession::get("defaultBasket");
@@ -148,6 +172,7 @@ class MainController extends ControllerBase {
         UResponse::header("location", "/".Router::path("basket"));
     }
 
+    // SUPPRIMER LE CONTENU PANIER
     #[Route(path:"basket/clear", name:"basket.clear")]
     public function clear() {
         $basketDetails = USession::get("defaultBasket");
@@ -156,6 +181,7 @@ class MainController extends ControllerBase {
         UResponse::header("location", "/".Router::path("basket"));
     }
 
+    // VALIDER LE PANIER
     #[Route(path:"basket/validate", name:"basket.validate")]
     public function basketValidate() {
         $basket = USession::get("defaultBasket");
@@ -167,11 +193,13 @@ class MainController extends ControllerBase {
         $this->loadDefaultView(['prixTotal'=> $prixTotal, 'promo'=>$promoTotal, 'quantity'=>$quantity]);
     }
 
+    // VALIDER LA COMMANDE
     #[Route(path:"basket/command", name:"basket.command")]
     public function basketCommand() {
 
     }
 
+    // AUTHENTIFICATION
 	protected function getAuthController(): AuthController {
         return new MyAuth($this);
     }

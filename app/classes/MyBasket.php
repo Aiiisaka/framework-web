@@ -89,6 +89,10 @@ class MyBasket {
         return $quantite;
     }
 
+    public function setQuantity($idProduct, $quantity) {
+        $this->listProducts[$idProduct]['quantity'] = $quantity;
+    }
+
     public function getCalculTotal() {
         $this->totalPrix = 0;
 

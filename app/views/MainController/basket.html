@@ -36,7 +36,16 @@
                                     </a>
                                     <br><br>
                                     <div class="meta">
-                                        <span>Quantity : {{products.quantity}}</span>
+                                        <form id="frm-basket-quantity" class="ui form" name="frm-basket-quantity" method="post" action="{{ path('basket.quantity', [products.product.id]) }}">
+                                            <div class="field required">
+                                                <div class="ui input">
+                                                    <span>Quantity :
+                                                        <input id="basketQuantity" name="basketQuantity" type="number" max="100" min="1" value="{{products.quantity}}">
+                                                        <button type="submit" class="ui button basic ajax _connect floated">Update Quantity</button>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </form>
                                     </div>
                                     <div class="extra">
                                         Price : {{products.product.price}} €
