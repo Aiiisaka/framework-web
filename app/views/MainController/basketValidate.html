@@ -21,6 +21,20 @@
 
             <fieldset>
                 <legend>&nbsp;Choice Withdrawals Periods&nbsp;</legend>
+                <div class="ui items">
+                    <hr>
+                    {% for slot in slots %}
+                    <div class="item">
+                        <div class="content">
+                            <br>
+                            <div class="meta">
+                                {{ slot.slotDate }}
+                            </div>
+                        </div>
+                    </div>
+                    <hr>
+                    {% endfor %}
+                </div>
 
                 <div class="ui middle aligned divided list">
                     <div class="item">

@@ -7,6 +7,7 @@ use models\Basketdetail;
 use models\Order;
 use models\Product;
 use models\Section;
+use models\User;
 use services\ui\StoreUI;
 use services\dao\StoreRepository;
 use Ubiquity\attributes\items\di\Autowired;
@@ -121,17 +122,26 @@ class MainController extends ControllerBase {
     // CREER UN NOUVEAU PANIER
     #[Route(path:"basket/new", name:"basket.new")]
     public function newBasket() {
-        if (URequest::post("basketName") != null && URequest::post("basketName") != "_default") {
-            $user = DAO::getById(User::class, 'idUser=?', false, [USession::get("identifiant")]);
+        if (URequest::post("basketName") != null) {
+            $id = USession::get("identifiant");
+
+            $user = DAO::getById(User::class, $id);
 
             $newBasket = new MyBasket(URequest::post("basketName"), $user);
             $newBasket->sauvegarder();
 
             UResponse::header("location", "/".Router::path("basket"));
+        } else {
+            $basket = DAO::getAll(Basket::class, 'idUser=?', false, [USession::get("identifiant")]);
+            $this->loadDefaultView(['baskets'=>$basket]);
         }
+    }
 
-        $basket = DAO::getAll(Basket::class, 'idUser=?', ['basketdetails.product'], [USession::get("idUser")]);
-        $this->loadDefaultView(['baskets'=>$basket]);
+    // SUPPRIME UN PANIER
+    #[Route(path:"basket/delete/{idBasket}", name:"basket.delete")]
+    public function basketDelete($idBasket) {
+        DAO::delete(Basket::class, $idBasket);
+        UResponse::header("location", "/".Router::path("basket.new"));
     }
 
     // PANIER
@@ -155,8 +165,6 @@ class MainController extends ControllerBase {
     public function basketQuantity($idProduct){
         $basket = USession::get("defaultBasket");
         $quantity = URequest::post("basketQuantity");
-
-        echo $quantity;
 
         $basket->setQuantity($idProduct, $quantity);
 
@@ -186,11 +194,13 @@ class MainController extends ControllerBase {
     public function basketValidate() {
         $basket = USession::get("defaultBasket");
 
+        $slots = DAO::getAll(Timeslot::class, 'full=?', false, [0]);
+
         $prixTotal = $basket->getCalculTotal();
         $promoTotal = $basket->getTotalPromo();
         $quantity = $basket->getQuantity();
 
-        $this->loadDefaultView(['prixTotal'=> $prixTotal, 'promo'=>$promoTotal, 'quantity'=>$quantity]);
+        //$this->loadDefaultView(['prixTotal'=> $prixTotal, 'promo'=>$promoTotal, 'quantity'=>$quantity, 'slots'=>$slots]);
     }
 
     // VALIDER LA COMMANDE
