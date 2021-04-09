@@ -23,7 +23,7 @@
                 <legend>&nbsp;Basket&nbsp;</legend>
                 <div class="ui items">
                     <hr>
-                    {% for products in products %}
+                        {% for products in productsList %}
                             <div class="item">
                                 <div class="image" style="width: 25%">
                                     <img src="public/assets/img/{{products.product.image}}.jpg" width="100%" alt="Product Image"/>
@@ -56,8 +56,20 @@
                                     <a href="{{ path('basket.clearOne', [products.product.id]) }}" class="ui mini red button" data-target="#basket-clearOne" tabindex="0"><i class="icon close"></i>&nbsp;Delete</a>
                                 </div>
                             </div>
-                    <hr>
+                        <hr>
+                        {% endfor %}
+                    <!--
+                    {% for section, product in productsTrier %}
+                        <div class="item">
+                            <div class="content">
+                                <div class="header">
+                                    {{section.name}}
+                                </div>
+                            </div>
+                        </div>
+                        <hr>
                     {% endfor %}
+                    -->
                     <div class="content" style="text-align: right">
                         <br>
                         <div style="font-size: smaller">

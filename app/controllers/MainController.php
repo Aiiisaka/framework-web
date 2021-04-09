@@ -158,8 +158,18 @@ class MainController extends ControllerBase {
 
         USession::set("quantite", $quantity);
         USession::set("prix", $promoTotal);
+/*
+        $dt = $this->jquery->semantic()->dataTable('dt', Product::class, $productsList);
+        $dt->setCompact(true);
+        $dt->setFields(['name','section','price','stock']);
 
-        $this->loadDefaultView(['products'=>$productsList, 'prixTotal'=> $prixTotal, 'promo'=>$promoTotal, 'quantity'=>$quantity]);
+        $dt->fieldAsHeader('section');
+        $dt->fieldAsLabel('name');
+        $dt->addGroupBy('section');
+*/
+       // $productsListTrie = UArrayModels::groupBy($productsList, fn($u) => $u->getProduct()->getSection());
+
+        $this->loadDefaultView(['productsList'=>$productsList, 'prixTotal'=> $prixTotal, 'promo'=>$promoTotal, 'quantity'=>$quantity]);
     }
 
     // AJOUTER QUANTITE DANS LE BASKET
