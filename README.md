@@ -1,7 +1,20 @@
-# travail-5
+# Project Ubiquity
 
-This README outlines the details of collaborating on this Ubiquity application.
-A short introduction of this app could easily go here.
+## Goal
+
+The purpose of this application is to manage the sales of a car shop through a website.
+
+A user can order one or more products on the website as well as choose a time to pick up the order.
+
+The user can create new specific baskets, however the basket is currently only the main basket. This has not yet been fully programmed.
+
+The user can access the list of his baskets as well as the list of orders already made.
+
+## Ubiquity
+
+Ubiquity is both a powerful and easy-to-use framework with many features for efficient programming.
+
+This framework uses the Model-View-Controller architecture.
 
 ## Prerequisites
 
