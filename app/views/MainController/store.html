@@ -4,10 +4,10 @@
     <div class="column four wide">
         <div class="inverseCouleur">
             <div class="ui celled list">
-                {% for sectionProduct in section %}
+                {% for sectionProduct in sections %}
                 <div class="item" style="padding: 2%; margin-left:15%;">
                     <a href="{{path('section',[sectionProduct.id])}}" data-target="#store-section" tabindex="0">
-                        <div class="ui yellow button" style="font-size: 10px">{{sectionProduct.name}} ({{sectionProduct.products|length}})</div>
+                        <div class="ui yellow button" style="font-size: 10px">{{sectionProduct.name}}</div>
                     </a>
                 </div>
                 {% endfor %}

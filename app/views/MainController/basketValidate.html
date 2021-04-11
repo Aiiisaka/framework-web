@@ -25,7 +25,7 @@
                     <br>
 
                     <div class="field">
-                        <select class="ui fluid dropdown" name="withdrawal-select" id="withdrawal-select">
+                        <select class="ui fluid dropdown" name="withdrawal-select" id="withdrawal">
                             <option value="" hidden>Choice a withdrawal period ...</option>
                             {% for slot in slots %}
                                 <option value="{{ slot.id }}">{{ slot.slotDate }}</option>

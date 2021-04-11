@@ -2,6 +2,7 @@
 namespace controllers;
 
 use classes\MyBasket;
+use models\Basket;
 use models\User;
 use controllers\auth\files\MyAuthFiles;
 use Ubiquity\controllers\auth\AuthFiles;
@@ -44,15 +45,28 @@ class MyAuth extends AuthController {
                 if (isset($user) && $user->getPassword() == $password) {
                     USession::set("identifiant", $user->getId());
 
-                    $myBasket = new MyBasket("current", $user);
-                    USession::set("defaultBasket", $myBasket);
+                    if (DAO::getOne(Basket::class,'name = ?',false,['_default'])) {
+                        $myBasket = new MyBasket(DAO::getOne(Basket::class,'name=?',false, ['_default']));
+                        USession::set("defaultBasket", $myBasket);
 
-                    return $user;
+                        return $user;
+                    }else {
+                        $basket = new Basket();
+                        $basket->setName('_default');
+                        $basket->setUser($user);
+
+                        if (DAO::save($basket)) {
+                            $myBasket = new MyBasket(DAO::getOne(Basket::class,'name=?',false, ['_default']));
+                            USession::set("defaultBasket", $myBasket);
+
+                            return $user;
+                        }
+                    }
                 }
             }
         }
 
-        return;
+        return null;
     }
 
     public function _displayInfoAsString() {

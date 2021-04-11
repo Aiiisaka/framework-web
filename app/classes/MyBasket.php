@@ -2,116 +2,109 @@
 
 namespace classes;
 
+use Ajax\semantic\widgets\datatable\DataTable;
+use models\Orderdetail;
+use models\Product;
 use ArrayObject;
 use models\Basket;
 use models\Basketdetail;
 use Ubiquity\orm\DAO;
 
 class MyBasket {
-    private $user;
-    private $nameBasket;
-    private $listProducts;
+    private $basket;
+    private $id;
     private $totalPrix;
 
-    public function __construct($name, $user) {
-        $this->user = $user;
-        $this->nameBasket = $name;
-        $this->listProducts = array();
-        $this->totalPrix = 0;
+    public function __construct($basket) {
+        $this->basket = $basket;
+        $this->id = $basket->getId();
     }
 
     public function getListProducts() {
-        return $this->listProducts;
+        $basketCurrent = DAO::getById(Basket::class, $this->id, ['basketdetails.product']);
+        return $basketCurrent->getBasketdetails();
     }
 
     public function addListProduct($product, $quantity) {
-        if(!isset ($this->listProducts[$product->getId()])) {
-            $this->listProducts[$product->getId()]['quantity'] = $quantity;
-            $this->listProducts[$product->getId()]['product'] = $product;
+        if (DAO::getOne(Basketdetail::class, 'idProduct=?', false, [$product->getId()])){
+            return null;
         } else {
-            $this->listProducts[$product->getId()]['quantity'] += $quantity;
+            $basketDetail = new Basketdetail();
+
+            $basketDetail->setBasket($this->basket);
+            $basketDetail->setProduct($product);
+            $basketDetail->setQuantity($quantity);
+
+            DAO::save($basketDetail);
         }
     }
 
     public function deleteListProduct() {
-        foreach ($this->listProducts as $key=>$list) {
-            unset($this->listProducts[$key]);
-        }
+        DAO::deleteAll(Basketdetail::class, 'idBasket=?', [$this->id]);
     }
 
     public function deleteProduct($idProduct) {
-        foreach ($this->listProducts as $key=>$list) {
-            if ($list['product']->getId() == $idProduct) {
-                unset($this->listProducts[$key]);
-            }
-        }
-    }
-
-    public function sauvegarder() {
-        try {
-            DAO::beginTransaction();
-
-            $basket = new Basket();
-
-            $basket->setName($this->nameBasket);
-            $basket->setUser($this->user);
-
-            if (DAO::save($basket)) {
-                foreach ($this->listProducts as $value) {
-
-                    $detailsBasket = new Basketdetail();
-                    $detailsBasket->setBasket($basket);
-
-                    if(isset($value['product']) && isset($value['quantity'])){
-                        $detailsBasket->setProduct($value['product']);
-                        $detailsBasket->setQuantity($value['quantity']);
-                    }
-
-                    DAO::save($detailsBasket);
-                }
-            }
-
-            return DAO::commit();
-        }
-        catch(\Exception $e){
-            DAO::rollBack();
-            return false;
-        }
+        DAO::deleteAll(Basketdetail::class, "idBasket=? and idProduct=?", [$this->id, $idProduct]);
     }
 
     public function getQuantity() {
+        $basketCurrent = DAO::getById(Basket::class, $this->id, ['basketdetails.product']);
+        $basketdetail = $basketCurrent->getBasketdetails();
+
         $quantite = 0;
 
-        foreach ($this->listProducts as $key=>$list) {
-            $quantite += $list['quantity'];
+        foreach ($basketdetail as $basketdetails) {
+            $quantite += $basketdetails->getQuantity();
         }
 
         return $quantite;
     }
 
     public function setQuantity($idProduct, $quantity) {
-        $this->listProducts[$idProduct]['quantity'] = $quantity;
+        $basketdetail = DAO::getOne(Basketdetail::class, 'idProduct=?', false, [$idProduct->getId()]);
+        $basketdetail->setQuantity($quantity);
+        DAO::save($basketdetail);
     }
 
     public function getCalculTotal() {
+        $basketCurrent = DAO::getById(Basket::class, $this->id, ['basketdetails.product']);
+        $basketdetail = $basketCurrent->getBasketdetails();
+
         $this->totalPrix = 0;
 
-        foreach ($this->listProducts as $key=>$list) {
-            $this->totalPrix += $list['product']->getPrice() * $list['quantity'];
+        foreach ($basketdetail as $basketdetails) {
+            $this->totalPrix += $basketdetails->getProduct()->getPrice() * $basketdetails->getQuantity();
         }
 
         return $this->totalPrix;
     }
 
     public function getTotalPromo() {
+        $basketCurrent = DAO::getById(Basket::class, $this->id, ['basketdetails.product']);
+        $basketdetail = $basketCurrent->getBasketdetails();
+
         $prixPromo = 0;
 
-        foreach ($this->listProducts as $key=>$list){
-            $prixPromo += $list['product']->getPromotion();
+        foreach ($basketdetail as $basketdetails) {
+            $prixPromo += $basketdetails->getProduct()->getPromotion() * $basketdetails->getQuantity();
         }
 
         $prixPromo += $this->totalPrix;
 
         return $prixPromo;
+    }
+
+    public function setOrder($order){
+        $basketCurrent = DAO::getById(Basket::class, $this->id, ['basketdetails.product']);
+        $details = $basketCurrent->getBasketdetails();
+
+        foreach ($details as $product){
+            $orderDetails = new Orderdetail();
+            $orderDetails->setProduct($product->getProduct());
+            $orderDetails->setQuantity($product->getQuantity());
+            $orderDetails->setOrder($order);
+
+            DAO::save($orderDetails);
+        }
     }
 }

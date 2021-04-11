@@ -1,7 +1,6 @@
 <?php
 namespace controllers;
 
-use classes\MyBasket;
 use models\Basket;
 use models\Basketdetail;
 use models\Order;
@@ -17,7 +16,6 @@ use Ubiquity\controllers\Router;
 use Ubiquity\controllers\auth\AuthController;
 use Ubiquity\controllers\auth\WithAuthTrait;
 use Ubiquity\orm\DAO;
-use Ubiquity\utils\base\UArrayModels;
 use Ubiquity\utils\http\URequest;
 use Ubiquity\utils\http\UResponse;
 use Ubiquity\utils\http\USession;
@@ -67,23 +65,24 @@ class MainController extends ControllerBase {
     #[Route(path:"store/browse", name:"store")]
     public function store() {
         $products = USession::get("recentlyViewedProducts");
-        $section = DAO::getAll(Section::class, false, ['products']);
+        $sections = DAO::getAll(Section::class, false, false);
         $produitsPromo = DAO::getAll(Product::class, 'promotion<?', false, [0]);
-        $this->loadDefaultView(['section'=>$section, 'produitsPromo'=>$produitsPromo, 'recentlyViewedProducts'=>$products]);
+        $this->loadDefaultView(['sections'=>$sections, 'produitsPromo'=>$produitsPromo, 'recentlyViewedProducts'=>$products]);
     }
 
     // AFFICHAGE DES PRODUITS EN FONCTION DE LA SECTION
     #[Route(path:"store/section/{id}", name:"section")]
     public function section($id) {
-        $sections = DAO::getAll(Section::class, false, ['products']);
-        $section = DAO::getById(Section::class, $id, ['products']);
-        $this->loadDefaultView(['section'=>$section, 'sections'=>$sections]);
+        $sections = DAO::getAll(Section::class, false, false);
+        $section = DAO::getById(Section::class, [$id]);
+        $products = DAO::getAll(Product::class, 'idSection=?', false, [$id]);
+        $this->loadDefaultView(['products'=>$products, 'section'=>$section, 'sections'=>$sections]);
     }
 
     // AFFICHAGE D'UN PRODUIT
     #[Route(path:"store/product/{idSection}/{idProduct}", name:"product")]
     public function product($idSection, $idProduct) {
-        $sections = DAO::getAll(Section::class, false, ['products']);
+        $sections = DAO::getAll(Section::class, false, false);
         $section = DAO::getById(Product::class, $idSection);
         $product = DAO::getById(Product::class, $idProduct);
 
@@ -126,13 +125,15 @@ class MainController extends ControllerBase {
     public function newBasket() {
         if (URequest::post("basketName") != null) {
             $id = USession::get("identifiant");
-
             $user = DAO::getById(User::class, $id);
 
-            $newBasket = new MyBasket(URequest::post("basketName"), $user);
-            $newBasket->sauvegarder();
+            $newBasket = new Basket();
+            $newBasket->setUser($user);
+            $newBasket->setName(URequest::post("basketName"));
 
-            UResponse::header("location", "/".Router::path("basket"));
+            DAO::save($newBasket);
+
+            UResponse::header("location", "/".Router::path("basket.myBaskets"));
         } else {
             $this->loadDefaultView();
         }
@@ -142,7 +143,7 @@ class MainController extends ControllerBase {
     #[Route(path:"basket/delete/{idBasket}", name:"basket.delete")]
     public function basketDelete($idBasket) {
         DAO::delete(Basket::class, $idBasket);
-        UResponse::header("location", "/".Router::path("basket.new"));
+        UResponse::header("location", "/".Router::path("basket.myBaskets"));
     }
 
     // PANIER
@@ -155,9 +156,6 @@ class MainController extends ControllerBase {
         $promoTotal = $basket->getTotalPromo();
         $quantity = $basket->getQuantity();
 
-        USession::set("quantite", $quantity);
-        USession::set("prix", $promoTotal);
-
         $this->loadDefaultView(['productsList'=>$productsList, 'prixTotal'=> $prixTotal, 'promo'=>$promoTotal, 'quantity'=>$quantity]);
     }
 
@@ -167,7 +165,7 @@ class MainController extends ControllerBase {
         $basket = USession::get("defaultBasket");
         $quantity = URequest::post("basketQuantity");
 
-        $basket->setQuantity($idProduct, $quantity);
+        $basket->setQuantity(DAO::getOne(Product::class, $idProduct,false), $quantity);
 
         UResponse::header("location", "/".Router::path("basket"));
 	}
@@ -187,7 +185,7 @@ class MainController extends ControllerBase {
         $basketDetails = USession::get("defaultBasket");
         $basketDetails->deleteListProduct();
 
-        UResponse::header("location", "/".Router::path("basket"));
+        UResponse::header("location", "/".Router::path("store"));
     }
 
     // MES BASKETS
@@ -217,10 +215,10 @@ class MainController extends ControllerBase {
 	    $slot = null;
 
         $order = new Order();
-        $order->setUser(DAO::getById(User::class, USession::get("idUser"), false));
+        $order->setUser(DAO::getById(User::class, USession::get("identifiant")));
 
-        if(URequest::post("slot-select") != null){
-            $slot = URequest::post("slot");
+        if(URequest::post("withdrawal") != null){
+            $slot = URequest::post("withdrawal");
         }
 
         $order->setTimeslot($slot);
@@ -229,7 +227,7 @@ class MainController extends ControllerBase {
         DAO::save($order);
 
         $basket = USession::get("defaultBasket");
-        $basket->setBasketToOrder($order);
+        $basket->setOrder($order);
 
         DAO::commit();
 

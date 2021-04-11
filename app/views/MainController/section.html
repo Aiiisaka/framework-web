@@ -7,7 +7,7 @@
                 {% for sectionProduct in sections %}
                 <div class="item" style="padding: 2%; margin-left:15%;">
                     <a href="{{path('section',[sectionProduct.id])}}" data-target="#store-section" tabindex="0">
-                        <div class="ui yellow button" style="font-size: 10px">{{sectionProduct.name}} ({{sectionProduct.products|length}})</div>
+                        <div class="ui yellow button" style="font-size: 10px">{{sectionProduct.name}}</div>
                     </a>
                 </div>
                 {% endfor %}
@@ -38,7 +38,7 @@
                 <fieldset>
                     <legend>&nbsp;Products&nbsp;</legend>
                     <div class="ui horizontal list">
-                        {% for prod in section.products %}
+                        {% for prod in products %}
                         <div class="item" style="text-align:center; width: 22%">
                             <a href="{{path('product', [section.id, prod.id])}}" data-target="#store-product" tabindex="0">
                                 <img src="public/assets/img/{{prod.image}}.jpg" width="100%" alt="Product Image"/>
