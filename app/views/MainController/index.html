@@ -44,7 +44,7 @@
                     <div style="margin-top: 5px"></div>
 
                     <div class="item">
-                        <a href="{{ path('basket') }}" class="ui vertical animated black fluid button" data-target="#basket" tabindex="0">
+                        <a href="{{ path('basket.myBaskets') }}" class="ui vertical animated black fluid button" data-target="#basket" tabindex="0">
                             <div class="hidden content">Access to my baskets ...</div>
                             <div class="visible content">
                                 <i class="shopping bag icon"></i>&nbsp;My baskets ({{ numBaskets }})
@@ -104,8 +104,8 @@
                                 <br>
                                 <div class="ui yellow label">{{product.name}}</div>
                                 &nbsp;
-                                <div class="header">{{product.promotion}} €</div>
-                                <div class="description label" style="font-size: smaller">{{product.price}} €</div>
+                                <div class="header">{{product.price}} €</div>
+                                <div class="description label" style="font-size: smaller">{{product.promotion}} €</div>
                                 <br>
                             </div>
                         </a>

@@ -1,0 +1,23 @@
+<div class="ui grid">
+    <div class="column two wide"></div>
+    <div class="column twelve wide">
+        <div class="couleur">
+            <fieldset>
+                <legend>&nbsp;My Baskets&nbsp;</legend>
+                <div class="ui list">
+                    {% for basket in baskets %}
+                    <div class="item">
+                        <div class="left floated content">
+                            •&nbsp;{{basket.name}}
+                        </div>
+                        <div class="right floated content">
+                            <a href="{{ path('basket.delete', [basket.id]) }}" class="ui mini red button" data-target="#basket-delete" tabindex="0"><i class="icon close"></i>&nbsp;Delete</a>
+                        </div>
+                    </div>
+                    <br>
+                    {% endfor %}
+                </div>
+            </fieldset>
+        </div>
+    </div>
+</div>

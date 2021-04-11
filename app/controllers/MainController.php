@@ -134,8 +134,7 @@ class MainController extends ControllerBase {
 
             UResponse::header("location", "/".Router::path("basket"));
         } else {
-            $basket = DAO::getAll(Basket::class, 'idUser=?', false, [USession::get("identifiant")]);
-            $this->loadDefaultView(['baskets'=>$basket]);
+            $this->loadDefaultView();
         }
     }
 
@@ -158,16 +157,6 @@ class MainController extends ControllerBase {
 
         USession::set("quantite", $quantity);
         USession::set("prix", $promoTotal);
-/*
-        $dt = $this->jquery->semantic()->dataTable('dt', Product::class, $productsList);
-        $dt->setCompact(true);
-        $dt->setFields(['name','section','price','stock']);
-
-        $dt->fieldAsHeader('section');
-        $dt->fieldAsLabel('name');
-        $dt->addGroupBy('section');
-*/
-       // $productsListTrie = UArrayModels::groupBy($productsList, fn($u) => $u->getProduct()->getSection());
 
         $this->loadDefaultView(['productsList'=>$productsList, 'prixTotal'=> $prixTotal, 'promo'=>$promoTotal, 'quantity'=>$quantity]);
     }
@@ -199,6 +188,13 @@ class MainController extends ControllerBase {
         $basketDetails->deleteListProduct();
 
         UResponse::header("location", "/".Router::path("basket"));
+    }
+
+    // MES BASKETS
+    #[Route(path: "basket/my-baskets", name: "basket.myBaskets")]
+    public function myBaskets() {
+        $basket = DAO::getAll(Basket::class, 'idUser=?', false, [USession::get("identifiant")]);
+        $this->loadDefaultView(['baskets'=>$basket]);
     }
 
     // VALIDER LE PANIER
