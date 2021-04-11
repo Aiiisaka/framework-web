@@ -21,31 +21,32 @@
 
             <fieldset>
                 <legend>&nbsp;Choice Withdrawals Periods&nbsp;</legend>
-                <div class="ui items">
-                    <hr>
-                    {% for slot in slots %}
-                    <div class="item">
-                        <div class="content">
-                            <div class="meta">
-                                {{slot}}
+                <form class="ui form" action="{{ path('basket.command') }}">
+                    <br>
+
+                    <div class="field">
+                        <select class="ui fluid dropdown" name="withdrawal-select" id="withdrawal-select">
+                            <option value="" hidden>Choice a withdrawal period ...</option>
+                            {% for slot in slots %}
+                                <option value="{{ slot.id }}">{{ slot.slotDate }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <br>
+
+                    <div class="ui middle aligned divided list">
+                        <div class="item">
+                            <div class="left floated content">
+                                <a href="{{ path('basket.clear') }}" class="ui red button" data-target="#basket-clear" tabindex="0"><i class="icon trash alternate"></i>&nbsp;Delete All</a>
+                            </div>
+
+                            <div class="right floated content">
+                                <button type="submit" class="ui green button">Command&nbsp;&nbsp;<i class="icon check"></i></button>
                             </div>
                         </div>
                     </div>
-                    <hr>
-                    {% endfor %}
-                </div>
-
-                <div class="ui middle aligned divided list">
-                    <div class="item">
-                        <div class="left floated content">
-                            <a href="{{ path('basket.clear') }}" class="ui red button" data-target="#basket-clear" tabindex="0"><i class="icon trash alternate"></i>&nbsp;Delete All</a>
-                        </div>
-
-                        <div class="right floated content">
-                            <a href="{{ path('basket.command') }}" class="ui green button" data-target="#basket-command" tabindex="0">Command&nbsp;&nbsp;<i class="icon check"></i></a>
-                        </div>
-                    </div>
-                </div>
+                </form>
             </fieldset>
         </div>
     </div>

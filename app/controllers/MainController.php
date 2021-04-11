@@ -202,10 +202,7 @@ class MainController extends ControllerBase {
     public function basketValidate() {
         $basket = USession::get("defaultBasket");
 
-        $slotsDate = DAO::getAll(Timeslot::class, 'full=?', false, [0]);
-        $slots=UArrayModels::groupBy($slotsDate,
-            fn($s) => strftime( '%A %d %B', \strtotime($s->getSlotDate()))
-        );
+        $slots = DAO::getAll(Timeslot::class, 'full=?', false, [0]);
 
         $prixTotal = $basket->getCalculTotal();
         $promoTotal = $basket->getTotalPromo();
@@ -217,7 +214,26 @@ class MainController extends ControllerBase {
     // VALIDER LA COMMANDE
     #[Route(path:"basket/command", name:"basket.command")]
     public function basketCommand() {
+	    $slot = null;
 
+        $order = new Order();
+        $order->setUser(DAO::getById(User::class, USession::get("idUser"), false));
+
+        if(URequest::post("slot-select") != null){
+            $slot = URequest::post("slot");
+        }
+
+        $order->setTimeslot($slot);
+
+        DAO::beginTransaction();
+        DAO::save($order);
+
+        $basket = USession::get("defaultBasket");
+        $basket->setBasketToOrder($order);
+
+        DAO::commit();
+
+	    $this->loadDefaultView();
     }
 
     // AUTHENTIFICATION
